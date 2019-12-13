@@ -5,15 +5,10 @@
 export { Client } from './client';
 
 // Imported aliases.
-import * as Commons from './commons';
 import * as Documents from './documents';
 import * as Attachments from './attachments';
 import * as Signatures from './signatures';
-
-/**
- * Commons namespace.
- */
-export import Commons = Commons;
+import * as Callbacks from './callbacks';
 
 /**
  * Documents namespace.
@@ -29,3 +24,8 @@ export import Attachments = Attachments;
  * Signatures namespace.
  */
 export import Signatures = Signatures;
+
+/**
+ * Callbacks namespace.
+ */
+export import Callbacks = Callbacks;

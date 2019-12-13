@@ -7,14 +7,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var client_1 = require("./client");
 exports.Client = client_1.Client;
 // Imported aliases.
-const Commons = require("./commons");
 const Documents = require("./documents");
 const Attachments = require("./attachments");
 const Signatures = require("./signatures");
-/**
- * Commons namespace.
- */
-exports.Commons = Commons;
+const Callbacks = require("./callbacks");
 /**
  * Documents namespace.
  */
@@ -27,4 +23,8 @@ exports.Attachments = Attachments;
  * Signatures namespace.
  */
 exports.Signatures = Signatures;
+/**
+ * Callbacks namespace.
+ */
+exports.Callbacks = Callbacks;
 //# sourceMappingURL=index.js.map

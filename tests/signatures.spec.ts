@@ -44,11 +44,7 @@ export class Signatures extends Testing.Case {
       fromEmail: 'team@singleware.com.br',
       signers: [{ email: 'team@singleware.com.br' }],
       document: document.url,
-      requiredAttachments: [
-        {
-          name: 'identity'
-        }
-      ]
+      requiredAttachments: [{ name: 'identity' }]
     });
     this.areNotSame(inserted, void 0);
   }
