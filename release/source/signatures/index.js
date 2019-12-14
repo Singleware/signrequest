@@ -6,16 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var mapper_1 = require("./mapper");
 exports.Mapper = mapper_1.Mapper;
+var entity_1 = require("./entity");
+exports.Entity = entity_1.Entity;
 // Imported aliases.
-const Commons = require("./commons");
+const Types = require("./types");
 const Requests = require("./requests");
 const Responses = require("./responses");
-// Exported aliases
-exports.Entity = Responses.Entity;
 /**
- * Commons namespace.
+ * Types namespace.
  */
-exports.Commons = Commons;
+exports.Types = Types;
 /**
  * Requests namespace.
  */

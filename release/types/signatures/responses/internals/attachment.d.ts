@@ -3,7 +3,7 @@
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 import * as Class from '@singleware/class';
-import * as Required from './required';
+import { Requirement } from './requirement';
 /**
  * Attachment entity class.
  */
@@ -25,5 +25,5 @@ export declare class Attachment extends Class.Null {
     /**
      * For attachment.
      */
-    forAttachment?: Required.Attachment | null;
+    forAttachment?: Requirement | null;
 }

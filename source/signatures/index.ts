@@ -3,19 +3,17 @@
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 export { Mapper } from './mapper';
+export { Entity } from './entity';
 
 // Imported aliases.
-import * as Commons from './commons';
+import * as Types from './types';
 import * as Requests from './requests';
 import * as Responses from './responses';
 
-// Exported aliases
-export import Entity = Responses.Entity;
-
 /**
- * Commons namespace.
+ * Types namespace.
  */
-export import Commons = Commons;
+export import Types = Types;
 
 /**
  * Requests namespace.

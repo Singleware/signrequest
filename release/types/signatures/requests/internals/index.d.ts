@@ -3,10 +3,4 @@
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 export { Signer } from './signer';
-import * as Commons from '../../commons';
-import * as Required from './required';
-export import Entity = Commons.Entity;
-/**
- * Required namespace.
- */
-export import Required = Required;
+export { Requirement } from './requirement';

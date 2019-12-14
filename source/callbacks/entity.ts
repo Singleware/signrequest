@@ -10,7 +10,6 @@ import * as RestDB from '@singleware/restdb';
 import * as Documents from '../documents';
 import * as Signatures from '../signatures';
 
-import * as Internals from './internals';
 import * as Types from './types';
 
 /**
@@ -20,39 +19,12 @@ import * as Types from './types';
 @Class.Describe()
 export class Entity extends Class.Null {
   /**
-   * Event Id.
-   * Max 36 characters.
-   */
-  @RestDB.Schema.Primary()
-  @RestDB.Schema.Required()
-  @RestDB.Schema.String(0, 36)
-  @Class.Public()
-  public uuid!: string;
-
-  /**
-   * Status.
+   * Document entity.
    */
   @RestDB.Schema.Required()
-  @RestDB.Schema.Enumeration(...Object.values(Types.Status))
+  @RestDB.Schema.Object(Documents.Entity)
   @Class.Public()
-  public status!: Types.Status;
-
-  /**
-   * Timestamp.
-   */
-  @RestDB.Schema.Required()
-  @RestDB.Schema.Date()
-  @Class.Public()
-  public timestamp!: Date;
-
-  /**
-   * Token name.
-   */
-  @RestDB.Schema.Alias('token_name')
-  @RestDB.Schema.Required()
-  @RestDB.Schema.String()
-  @Class.Public()
-  public tokenName!: string;
+  public document!: Documents.Entity;
 
   /**
    * Event hash.
@@ -77,32 +49,59 @@ export class Entity extends Class.Null {
    */
   @RestDB.Schema.Alias('event_type')
   @RestDB.Schema.Required()
-  @RestDB.Schema.Enumeration(...Object.values(Types.Event))
+  @RestDB.Schema.Enumeration(Object.values(Types.Event))
   @Class.Public()
   public eventType!: Types.Event;
 
   /**
-   * Document entity.
-   */
-  @RestDB.Schema.Required()
-  @RestDB.Schema.Object(Documents.Entity)
-  @Class.Public()
-  public document!: Documents.Entity;
-
-  /**
    * Signer entity.
    */
-  @RestDB.Schema.Object(Signatures.Commons.Signer)
+  @RestDB.Schema.Object(Signatures.Responses.Internals.Signer)
   @RestDB.Schema.Null()
   @Class.Public()
-  public signer?: Signatures.Commons.Signer | null;
+  public signer?: Signatures.Responses.Internals.Signer | null;
+
+  /**
+   * Status.
+   */
+  @RestDB.Schema.Required()
+  @RestDB.Schema.Enumeration(Object.values(Types.Status))
+  @Class.Public()
+  public status!: Types.Status;
 
   /**
    * Team entity.
    */
-  @RestDB.Schema.Object(Internals.Team)
+  @RestDB.Schema.Object(Documents.Internals.Team)
   @Class.Public()
-  public team!: Internals.Team;
+  public team!: Documents.Internals.Team;
+
+  /**
+   * Timestamp.
+   */
+  @RestDB.Schema.Required()
+  @RestDB.Schema.Date()
+  @Class.Public()
+  public timestamp!: Date;
+
+  /**
+   * Token name.
+   */
+  @RestDB.Schema.Alias('token_name')
+  @RestDB.Schema.Required()
+  @RestDB.Schema.String()
+  @Class.Public()
+  public tokenName!: string;
+
+  /**
+   * Event Id.
+   * Max 36 characters.
+   */
+  @RestDB.Schema.Primary()
+  @RestDB.Schema.Required()
+  @RestDB.Schema.String(0, 36)
+  @Class.Public()
+  public uuid!: string;
 
   /**
    * Determines whether or not this event is valid according to the specified API token.

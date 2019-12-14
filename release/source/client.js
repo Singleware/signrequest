@@ -38,13 +38,13 @@ let Client = class Client extends RestDB.Driver {
      * Gets the request query string based on the specified entity model, fields and query filter.
      * @param model Entity model.
      * @param query Query filter.
-     * @param fields Viewed fields.
+     * @param select Optional fields to select.
      * @returns Returns the parsed query string.
-     * @throws Throws an error when used with filters or viewed fields. (Feature not supported)
+     * @throws Throws an error when used with filters or select fields. (Feature not supported)
      */
-    getRequestQuery(model, query, fields) {
-        if (query || (fields && fields.length > 0)) {
-            throw new Error(`Query filter and Viewed field doesn't supported.`);
+    getRequestQuery(model, query, select) {
+        if (query || (select && select.length > 0)) {
+            throw new Error(`Query filter and Selected fields aren't supported.`);
         }
         return '/';
     }
@@ -134,17 +134,13 @@ let Client = class Client extends RestDB.Driver {
         this.payloadData = void 0;
         if (response.payload instanceof Object) {
             this.payloadData = response.payload;
-            if (this.payloadData.non_field_errors instanceof Array) {
-                throw new Error(`Endpoint error: ${this.payloadData.non_field_errors.join(' / ')}`);
-            }
-            else if (this.payloadData.detail !== void 0) {
-                throw new Error(`Endpoint error: ${this.payloadData.detail}`);
-            }
+            await super.notifyErrorResponse(model, response);
+            throw new Error(`Endpoint error, please check the payload.`);
         }
-        else if (typeof response.payload === 'string') {
-            throw new Error(`Server error: ${response.payload}`);
+        else {
+            await super.notifyErrorResponse(model, response);
+            throw new Error(`Server error: ${response.status.message}.`);
         }
-        await super.notifyErrorResponse(model, response);
     }
     /**
      * Gets the payload from the last request.

@@ -1,39 +1,42 @@
-import * as RestDB from '@singleware/restdb';
+/*!
+ * Copyright (C) 2019 Silas B. Domingos
+ * This source code is licensed under the MIT License as described in the file LICENSE.
+ */
+import * as Class from '@singleware/class';
 import * as Requests from './requests';
-import * as Responses from './responses';
+import { Entity } from './entity';
 /**
  * Signatures mapper class.
  */
-export declare class Mapper extends RestDB.Mapper<Responses.Entity> {
+export declare class Mapper extends Class.Null {
     /**
      * Client instance.
      */
     private client;
     /**
-     * Default constructor.
-     * @param dependencies Mapper dependencies.
+     * Mapper instance.
      */
-    constructor(dependencies: any);
+    private mapper;
     /**
      * Creates a new signature request.
      * @param request Signature creation request.
      * @returns Returns a promise to get the signature entity or undefined when the operation has been failed.
      */
-    create(request: Requests.Create): Promise<Responses.Entity | undefined>;
+    create(request: Requests.Create): Promise<Entity | undefined>;
     /**
-     * Loads the signature that corresponds to the specified Id.
+     * Read the signature that corresponds to the specified Id.
      * @param id Signature Id.
      * @returns Returns a promise to get the signature entity or undefined when the signature wasn't found.
      */
-    load(id: string): Promise<Responses.Entity | undefined>;
+    read(id: string): Promise<Entity | undefined>;
     /**
-     * Cancels the signature that corresponds to the specified Id.
+     * Cancel the signature that corresponds to the specified Id.
      * @param id Signature Id.
      * @returns Returns a promise to get true when the cancellation was successful, false otherwise.
      */
     cancel(id: string): Promise<boolean>;
     /**
-     * Resends the signature that corresponds to the specified Id.
+     * Resend the signature that corresponds to the specified Id.
      * @param id Signature Id.
      * @returns Returns a promise to get true when the cancellation was successful, false otherwise.
      */

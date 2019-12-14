@@ -5,7 +5,7 @@
 import * as Class from '@singleware/class';
 import * as RestDB from '@singleware/restdb';
 
-import * as Required from './required';
+import { Requirement } from './requirement';
 
 /**
  * Attachment entity class.
@@ -42,8 +42,8 @@ export class Attachment extends Class.Null {
    * For attachment.
    */
   @RestDB.Schema.Alias('for_attachment')
-  @RestDB.Schema.Object(Required.Attachment)
+  @RestDB.Schema.Object(Requirement)
   @RestDB.Schema.Null()
   @Class.Public()
-  public forAttachment?: Required.Attachment | null;
+  public forAttachment?: Requirement | null;
 }

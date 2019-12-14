@@ -6,17 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var input_1 = require("./input");
 exports.Input = input_1.Input;
-var attachment_1 = require("./attachment");
-exports.Attachment = attachment_1.Attachment;
 var signer_1 = require("./signer");
 exports.Signer = signer_1.Signer;
-// Imported aliases.
-const Commons = require("../../commons");
-const Required = require("./required");
-// Exported aliases.
-exports.Entity = Commons.Entity;
-/**
- * Required namespace.
- */
-exports.Required = Required;
+var requirement_1 = require("./requirement");
+exports.Requirement = requirement_1.Requirement;
+var attachment_1 = require("./attachment");
+exports.Attachment = attachment_1.Attachment;
 //# sourceMappingURL=index.js.map

@@ -3,12 +3,7 @@
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 export { Entity } from './entity';
-import * as Internals from './internals';
 import * as Types from './types';
-/**
- * Internals namespace.
- */
-export import Internals = Internals;
 /**
  * Types namespace.
  */

@@ -5,7 +5,7 @@
 import * as Class from '@singleware/class';
 import * as RestDB from '@singleware/restdb';
 
-import * as Types from '../../../types';
+import * as Types from '../../types';
 
 /**
  * Input entity class.
@@ -16,7 +16,7 @@ export class Input extends Class.Null {
   /**
    * Input type.
    */
-  @RestDB.Schema.Enumeration(...Object.values(Types.Input))
+  @RestDB.Schema.Enumeration(Object.values(Types.Input))
   @RestDB.Schema.Null()
   @Class.Public()
   public type?: Types.Input | null;
@@ -63,7 +63,7 @@ export class Input extends Class.Null {
   @RestDB.Schema.String(0, 255)
   @RestDB.Schema.Null()
   @Class.Public()
-  public externalId?: Date | null;
+  public externalId?: string | null;
 
   /**
    * Placeholder uuid.
@@ -73,5 +73,5 @@ export class Input extends Class.Null {
   @RestDB.Schema.String(0, 36)
   @RestDB.Schema.Null()
   @Class.Public()
-  public placeholderUuid?: Date | null;
+  public placeholderUuid?: string | null;
 }

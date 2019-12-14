@@ -7,12 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var entity_1 = require("./entity");
 exports.Entity = entity_1.Entity;
 // Imported aliases.
-const Internals = require("./internals");
 const Types = require("./types");
-/**
- * Internals namespace.
- */
-exports.Internals = Internals;
 /**
  * Types namespace.
  */

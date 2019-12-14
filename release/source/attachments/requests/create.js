@@ -12,12 +12,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
-const Commons = require("../commons");
 /**
  * Create attachment, entity class.
  */
-let Create = class Create extends Commons.Entity {
+let Create = class Create extends Class.Null {
 };
+__decorate([
+    RestDB.Schema.String(0, 255),
+    RestDB.Schema.Null(),
+    Class.Public()
+], Create.prototype, "name", void 0);
+__decorate([
+    RestDB.Schema.Alias('file_from_content'),
+    RestDB.Schema.Base64(),
+    RestDB.Schema.Null(),
+    Class.Public()
+], Create.prototype, "fileFromContent", void 0);
+__decorate([
+    RestDB.Schema.Alias('file_from_content_name'),
+    RestDB.Schema.String(),
+    RestDB.Schema.Null(),
+    Class.Public()
+], Create.prototype, "fileFromContentName", void 0);
+__decorate([
+    RestDB.Schema.Alias('file_from_url'),
+    RestDB.Schema.String(0, 2100),
+    RestDB.Schema.Null(),
+    Class.Public()
+], Create.prototype, "fileFromUrl", void 0);
+__decorate([
+    RestDB.Schema.Required(),
+    RestDB.Schema.String(),
+    Class.Public()
+], Create.prototype, "document", void 0);
 Create = __decorate([
     RestDB.Schema.Entity('document-attachments'),
     Class.Describe()

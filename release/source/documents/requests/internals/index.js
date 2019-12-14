@@ -6,8 +6,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var user_1 = require("./user");
 exports.User = user_1.User;
-// Imported aliases.
-const Commons = require("../../commons");
-// Exported aliases.
-exports.Entity = Commons.Entity;
 //# sourceMappingURL=index.js.map

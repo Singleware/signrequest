@@ -18,11 +18,11 @@ export declare class Client extends RestDB.Driver {
      * Gets the request query string based on the specified entity model, fields and query filter.
      * @param model Entity model.
      * @param query Query filter.
-     * @param fields Viewed fields.
+     * @param select Optional fields to select.
      * @returns Returns the parsed query string.
-     * @throws Throws an error when used with filters or viewed fields. (Feature not supported)
+     * @throws Throws an error when used with filters or select fields. (Feature not supported)
      */
-    protected getRequestQuery(model: RestDB.Model, query?: RestDB.Query, fields?: string[]): string;
+    protected getRequestQuery(model: RestDB.Model, query?: RestDB.Query, select?: string[]): string;
     /**
      * Gets the request method based on the specified entity model.
      * @param model Entity model.
@@ -72,7 +72,7 @@ export declare class Client extends RestDB.Driver {
     /**
      * Gets the payload from the last request.
      */
-    readonly payload: RestDB.Entity | undefined;
+    get payload(): RestDB.Entity | undefined;
     /**
      * Sets the authorization token for all subsequent requests.
      * @param token Username.

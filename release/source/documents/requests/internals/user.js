@@ -12,12 +12,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
-const Commons = require("../../commons");
+const Validators = require("@singleware/types");
 /**
  * User entity class.
  */
-let User = class User extends Commons.User {
+let User = class User extends Class.Null {
 };
+__decorate([
+    Validators.Validate(new Validators.Common.Email()),
+    RestDB.Schema.Required(),
+    RestDB.Schema.String(1, 254),
+    Class.Public()
+], User.prototype, "email", void 0);
+__decorate([
+    RestDB.Schema.Alias('first_name'),
+    RestDB.Schema.String(0, 255),
+    Class.Public()
+], User.prototype, "firstName", void 0);
+__decorate([
+    RestDB.Schema.Alias('last_name'),
+    RestDB.Schema.String(0, 255),
+    Class.Public()
+], User.prototype, "lastName", void 0);
 User = __decorate([
     RestDB.Schema.Entity('documents/user'),
     Class.Describe()

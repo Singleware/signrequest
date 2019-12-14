@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
-const Required = require("./required");
+const requirement_1 = require("./requirement");
 /**
  * Attachment entity class.
  */
@@ -34,7 +34,7 @@ __decorate([
 ], Attachment.prototype, "file", void 0);
 __decorate([
     RestDB.Schema.Alias('for_attachment'),
-    RestDB.Schema.Object(Required.Attachment),
+    RestDB.Schema.Object(requirement_1.Requirement),
     RestDB.Schema.Null(),
     Class.Public()
 ], Attachment.prototype, "forAttachment", void 0);

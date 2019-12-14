@@ -13,11 +13,39 @@ import * as SignRequest from '../source';
 @Class.Describe()
 export class Helper extends Class.Null {
   /**
+   * API client.
+   */
+  @Injection.Inject(SignRequest.Client)
+  @Class.Private()
+  private static client: SignRequest.Client;
+
+  /**
+   * Documents mapper.
+   */
+  @Injection.Inject(SignRequest.Documents.Mapper)
+  @Class.Private()
+  private static documents: SignRequest.Documents.Mapper;
+
+  /**
+   * Attachments mapper.
+   */
+  @Injection.Inject(SignRequest.Attachments.Mapper)
+  @Class.Private()
+  private static attachments: SignRequest.Attachments.Mapper;
+
+  /**
+   * Signatures mapper.
+   */
+  @Injection.Inject(SignRequest.Signatures.Mapper)
+  @Class.Private()
+  private static signatures: SignRequest.Signatures.Mapper;
+
+  /**
    * Sets the SignRequest client authorization.
    */
   @Class.Public()
   public static setAuthorization(): void {
-    Injection.resolve(SignRequest.Client).setAuthorization('YOUR_TOKEN');
+    this.client.setAuthorization('YOUR_TOKEN');
   }
 
   /**
@@ -26,7 +54,7 @@ export class Helper extends Class.Null {
    */
   @Class.Public()
   public static async getNewDocumentEntity(): Promise<SignRequest.Documents.Entity | undefined> {
-    return await Injection.resolve(SignRequest.Documents.Mapper).create({
+    return await this.documents.create({
       fileFromContent: '<h1>Helper Document</h1>',
       fileFromContentName: 'test.html',
       autoExpireDays: 1,
@@ -40,14 +68,14 @@ export class Helper extends Class.Null {
    */
   @Class.Public()
   public static async getNewAttachmentEntity(): Promise<SignRequest.Attachments.Entity | undefined> {
-    const document = <SignRequest.Documents.Entity>await Helper.getNewDocumentEntity();
+    const document = <SignRequest.Documents.Entity>await this.getNewDocumentEntity();
     if (!document) {
       throw new Error(`Document for the attachment wasn't created.`);
     }
-    return await Injection.resolve(SignRequest.Attachments.Mapper).create({
+    return await this.attachments.create({
       fileFromContent: '<h1>Helper Attachment</h1>',
       fileFromContentName: 'attachment.html',
-      document: document.url
+      document: <string>document.url
     });
   }
 
@@ -57,14 +85,14 @@ export class Helper extends Class.Null {
    */
   @Class.Public()
   public static async getNewSignatureEntity(): Promise<SignRequest.Signatures.Entity | undefined> {
-    const document = <SignRequest.Documents.Entity>await Helper.getNewDocumentEntity();
+    const document = <SignRequest.Documents.Entity>await this.getNewDocumentEntity();
     if (!document) {
       throw new Error(`Document for the signature wasn't created.`);
     }
-    return await Injection.resolve(SignRequest.Signatures.Mapper).create({
+    return await this.signatures.create({
       fromEmail: 'team@singleware.com.br',
       signers: [{ email: 'test@singleware.com.br' }],
-      document: document.url
+      document: <string>document.url
     });
   }
 }

@@ -5,13 +5,7 @@
 export { Entity } from './entity';
 
 // Imported aliases.
-import * as Internals from './internals';
 import * as Types from './types';
-
-/**
- * Internals namespace.
- */
-export import Internals = Internals;
 
 /**
  * Types namespace.

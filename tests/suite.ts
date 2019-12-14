@@ -4,9 +4,9 @@
  */
 import * as Testing from '@singleware/testing';
 
-import { Documents } from './documents.spec';
-import { Attachments } from './attachments.spec';
-import { Signatures } from './signatures.spec';
+import { Documents } from './cases/documents.spec';
+import { Attachments } from './cases/attachments.spec';
+import { Signatures } from './cases/signatures.spec';
 
 const suite = new Testing.Suite();
 const logger = new Testing.Loggers.Tap();

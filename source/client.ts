@@ -35,14 +35,14 @@ export class Client extends RestDB.Driver {
    * Gets the request query string based on the specified entity model, fields and query filter.
    * @param model Entity model.
    * @param query Query filter.
-   * @param fields Viewed fields.
+   * @param select Optional fields to select.
    * @returns Returns the parsed query string.
-   * @throws Throws an error when used with filters or viewed fields. (Feature not supported)
+   * @throws Throws an error when used with filters or select fields. (Feature not supported)
    */
   @Class.Protected()
-  protected getRequestQuery(model: RestDB.Model, query?: RestDB.Query, fields?: string[]): string {
-    if (query || (fields && fields.length > 0)) {
-      throw new Error(`Query filter and Viewed field doesn't supported.`);
+  protected getRequestQuery(model: RestDB.Model, query?: RestDB.Query, select?: string[]): string {
+    if (query || (select && select.length > 0)) {
+      throw new Error(`Query filter and Selected fields aren't supported.`);
     }
     return '/';
   }
@@ -116,7 +116,10 @@ export class Client extends RestDB.Driver {
    * @returns Returns the entity, a promise to get it or undefined when the entity was not found.
    */
   @Class.Protected()
-  protected getFindByIdResponse<T extends RestDB.Entity>(model: RestDB.Model, response: RestDB.Responses.Output): T | undefined {
+  protected getFindByIdResponse<T extends RestDB.Entity>(
+    model: RestDB.Model,
+    response: RestDB.Responses.Output
+  ): T | undefined {
     if (response.status.code === 200) {
       return response.payload;
     }
@@ -144,15 +147,12 @@ export class Client extends RestDB.Driver {
     this.payloadData = void 0;
     if (response.payload instanceof Object) {
       this.payloadData = <RestDB.Entity>response.payload;
-      if (this.payloadData.non_field_errors instanceof Array) {
-        throw new Error(`Endpoint error: ${this.payloadData.non_field_errors.join(' / ')}`);
-      } else if (this.payloadData.detail !== void 0) {
-        throw new Error(`Endpoint error: ${this.payloadData.detail}`);
-      }
-    } else if (typeof response.payload === 'string') {
-      throw new Error(`Server error: ${response.payload}`);
+      await super.notifyErrorResponse(model, response);
+      throw new Error(`Endpoint error, please check the payload.`);
+    } else {
+      await super.notifyErrorResponse(model, response);
+      throw new Error(`Server error: ${response.status.message}.`);
     }
-    await super.notifyErrorResponse(model, response);
   }
 
   /**

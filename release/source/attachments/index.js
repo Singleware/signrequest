@@ -6,22 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var mapper_1 = require("./mapper");
 exports.Mapper = mapper_1.Mapper;
+var entity_1 = require("./entity");
+exports.Entity = entity_1.Entity;
 // Imported aliases.
-const Commons = require("./commons");
 const Requests = require("./requests");
-const Responses = require("./responses");
-// Exported aliases
-exports.Entity = Responses.Entity;
-/**
- * Commons namespace.
- */
-exports.Commons = Commons;
 /**
  * Requests namespace.
  */
 exports.Requests = Requests;
-/**
- * Responses namespace.
- */
-exports.Responses = Responses;
 //# sourceMappingURL=index.js.map

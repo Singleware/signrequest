@@ -12,14 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
-const Types = require("../../../types");
+const Types = require("../../types");
 /**
  * Input entity class.
  */
 let Input = class Input extends Class.Null {
 };
 __decorate([
-    RestDB.Schema.Enumeration(...Object.values(Types.Input)),
+    RestDB.Schema.Enumeration(Object.values(Types.Input)),
     RestDB.Schema.Null(),
     Class.Public()
 ], Input.prototype, "type", void 0);

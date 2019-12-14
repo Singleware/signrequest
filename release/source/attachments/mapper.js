@@ -14,19 +14,18 @@ const Class = require("@singleware/class");
 const Injection = require("@singleware/injection");
 const RestDB = require("@singleware/restdb");
 const Requests = require("./requests");
-const Responses = require("./responses");
 const client_1 = require("../client");
+const entity_1 = require("./entity");
 /**
  * Attachments mapper class.
  */
-let Mapper = class Mapper extends RestDB.Mapper {
-    /**
-     * Default constructor.
-     * @param dependencies Mapper dependencies.
-     */
-    constructor(dependencies) {
-        super(dependencies.client, Responses.Entity);
-        this.client = dependencies.client;
+let Mapper = class Mapper extends Class.Null {
+    constructor() {
+        super(...arguments);
+        /**
+         * Mapper instance.
+         */
+        this.mapper = new RestDB.Mapper(this.client, entity_1.Entity);
     }
     /**
      * Creates a new attachment request.
@@ -34,31 +33,34 @@ let Mapper = class Mapper extends RestDB.Mapper {
      * @returns Returns a promise to get the attachment entity or undefined when the operation has been failed.
      */
     async create(request) {
-        if ((await super.insertEx(Requests.Create, request)) !== void 0) {
-            return RestDB.Outputer.createFull(Responses.Entity, this.client.payload, []);
+        if ((await this.mapper.insertEx(Requests.Create, request)) !== void 0) {
+            return RestDB.Outputer.createFull(entity_1.Entity, this.client.payload, []);
         }
         return void 0;
     }
     /**
-     * Loads the attachment that corresponds to the specified Id.
+     * Read the attachment that corresponds to the specified Id.
      * @param id Attachment Id.
      * @returns Returns a promise to get the attachment entity or undefined when the attachment wasn't found.
      */
-    async load(id) {
-        return await super.findById(id);
+    async read(id) {
+        return await this.mapper.findById(id);
     }
 };
 __decorate([
+    Injection.Inject(() => client_1.Client),
     Class.Private()
 ], Mapper.prototype, "client", void 0);
+__decorate([
+    Class.Private()
+], Mapper.prototype, "mapper", void 0);
 __decorate([
     Class.Public()
 ], Mapper.prototype, "create", null);
 __decorate([
     Class.Public()
-], Mapper.prototype, "load", null);
+], Mapper.prototype, "read", null);
 Mapper = __decorate([
-    Injection.Inject(client_1.Client),
     Injection.Describe({ singleton: true, name: 'attachments' }),
     Class.Describe()
 ], Mapper);

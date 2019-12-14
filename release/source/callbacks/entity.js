@@ -15,7 +15,6 @@ const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
 const Documents = require("../documents");
 const Signatures = require("../signatures");
-const Internals = require("./internals");
 const Types = require("./types");
 /**
  * Event entity class.
@@ -33,27 +32,10 @@ let Entity = class Entity extends Class.Null {
     }
 };
 __decorate([
-    RestDB.Schema.Primary(),
     RestDB.Schema.Required(),
-    RestDB.Schema.String(0, 36),
+    RestDB.Schema.Object(Documents.Entity),
     Class.Public()
-], Entity.prototype, "uuid", void 0);
-__decorate([
-    RestDB.Schema.Required(),
-    RestDB.Schema.Enumeration(...Object.values(Types.Status)),
-    Class.Public()
-], Entity.prototype, "status", void 0);
-__decorate([
-    RestDB.Schema.Required(),
-    RestDB.Schema.Date(),
-    Class.Public()
-], Entity.prototype, "timestamp", void 0);
-__decorate([
-    RestDB.Schema.Alias('token_name'),
-    RestDB.Schema.Required(),
-    RestDB.Schema.String(),
-    Class.Public()
-], Entity.prototype, "tokenName", void 0);
+], Entity.prototype, "document", void 0);
 __decorate([
     RestDB.Schema.Alias('event_hash'),
     RestDB.Schema.Required(),
@@ -69,23 +51,40 @@ __decorate([
 __decorate([
     RestDB.Schema.Alias('event_type'),
     RestDB.Schema.Required(),
-    RestDB.Schema.Enumeration(...Object.values(Types.Event)),
+    RestDB.Schema.Enumeration(Object.values(Types.Event)),
     Class.Public()
 ], Entity.prototype, "eventType", void 0);
 __decorate([
-    RestDB.Schema.Required(),
-    RestDB.Schema.Object(Documents.Entity),
-    Class.Public()
-], Entity.prototype, "document", void 0);
-__decorate([
-    RestDB.Schema.Object(Signatures.Commons.Signer),
+    RestDB.Schema.Object(Signatures.Responses.Internals.Signer),
     RestDB.Schema.Null(),
     Class.Public()
 ], Entity.prototype, "signer", void 0);
 __decorate([
-    RestDB.Schema.Object(Internals.Team),
+    RestDB.Schema.Required(),
+    RestDB.Schema.Enumeration(Object.values(Types.Status)),
+    Class.Public()
+], Entity.prototype, "status", void 0);
+__decorate([
+    RestDB.Schema.Object(Documents.Internals.Team),
     Class.Public()
 ], Entity.prototype, "team", void 0);
+__decorate([
+    RestDB.Schema.Required(),
+    RestDB.Schema.Date(),
+    Class.Public()
+], Entity.prototype, "timestamp", void 0);
+__decorate([
+    RestDB.Schema.Alias('token_name'),
+    RestDB.Schema.Required(),
+    RestDB.Schema.String(),
+    Class.Public()
+], Entity.prototype, "tokenName", void 0);
+__decorate([
+    RestDB.Schema.Primary(),
+    RestDB.Schema.Required(),
+    RestDB.Schema.String(0, 36),
+    Class.Public()
+], Entity.prototype, "uuid", void 0);
 __decorate([
     Class.Public()
 ], Entity.prototype, "validate", null);

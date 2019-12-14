@@ -3,7 +3,7 @@
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 import * as Class from '@singleware/class';
-import * as Types from '../../../types';
+import * as Types from '../../types';
 /**
  * Input entity class.
  */
@@ -32,10 +32,10 @@ export declare class Input extends Class.Null {
      * External Id.
      * Max 255 characters.
      */
-    externalId?: Date | null;
+    externalId?: string | null;
     /**
      * Placeholder uuid.
      * Max 36 characters.
      */
-    placeholderUuid?: Date | null;
+    placeholderUuid?: string | null;
 }

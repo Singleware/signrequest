@@ -6,12 +6,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var user_1 = require("./user");
 exports.User = user_1.User;
-var team_1 = require("./team");
-exports.Team = team_1.Team;
-var attachment_1 = require("./attachment");
-exports.Attachment = attachment_1.Attachment;
-// Imported aliases.
-const Commons = require("../../commons");
-// Exported aliases.
-exports.Entity = Commons.Entity;
 //# sourceMappingURL=index.js.map

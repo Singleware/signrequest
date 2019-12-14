@@ -7,31 +7,28 @@ import * as Injection from '@singleware/injection';
 import * as RestDB from '@singleware/restdb';
 
 import * as Requests from './requests';
-import * as Responses from './responses';
 
 import { Client } from '../client';
+import { Entity } from './entity';
 
 /**
  * Documents mapper class.
  */
-@Injection.Inject(Client)
 @Injection.Describe({ singleton: true, name: 'documents' })
 @Class.Describe()
-export class Mapper extends RestDB.Mapper<Responses.Entity> {
+export class Mapper extends Class.Null {
   /**
    * Client instance.
    */
+  @Injection.Inject(() => Client)
   @Class.Private()
   private client!: Client;
 
   /**
-   * Default constructor.
-   * @param dependencies Mapper dependencies.
+   * Mapper instance.
    */
-  constructor(dependencies: any) {
-    super(dependencies.client, Responses.Entity);
-    this.client = dependencies.client;
-  }
+  @Class.Private()
+  private mapper = new RestDB.Mapper<Entity>(this.client, Entity);
 
   /**
    * Creates a new document request.
@@ -39,30 +36,30 @@ export class Mapper extends RestDB.Mapper<Responses.Entity> {
    * @returns Returns a promise to get the document entity or undefined when the operation has been failed.
    */
   @Class.Public()
-  public async create(request: Requests.Create): Promise<Responses.Entity | undefined> {
-    if ((await super.insertEx(Requests.Create, request)) !== void 0) {
-      return RestDB.Outputer.createFull(Responses.Entity, <RestDB.Entity>this.client.payload, []);
+  public async create(request: Requests.Create): Promise<Entity | undefined> {
+    if ((await this.mapper.insertEx(Requests.Create, request)) !== void 0) {
+      return RestDB.Outputer.createFull(Entity, <RestDB.Entity>this.client.payload, []);
     }
     return void 0;
   }
 
   /**
-   * Loads the document that corresponds to the specified document Id.
+   * Read the document that corresponds to the specified document Id.
    * @param id Document Id.
    * @returns Returns a promise to get the document entity or undefined when the document wasn't found.
    */
   @Class.Public()
-  public async load(id: string): Promise<Responses.Entity | undefined> {
-    return await super.findById(id);
+  public async read(id: string): Promise<Entity | undefined> {
+    return await this.mapper.findById(id);
   }
 
   /**
-   * Removes the document that corresponds to the specified document Id.
+   * Delete the document that corresponds to the specified document Id.
    * @param id Document Id.
    * @returns Returns a promise to get true when the removal was successful, false otherwise.
    */
   @Class.Public()
-  public async remove(id: string): Promise<boolean> {
-    return await super.deleteById(id);
+  public async delete(id: string): Promise<boolean> {
+    return await this.mapper.deleteById(id);
   }
 }
