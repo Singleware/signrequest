@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 var language_1 = require("./language");
-exports.Language = language_1.Language;
+Object.defineProperty(exports, "Language", { enumerable: true, get: function () { return language_1.Language; } });
 var input_1 = require("./input");
-exports.Input = input_1.Input;
+Object.defineProperty(exports, "Input", { enumerable: true, get: function () { return input_1.Input; } });
 var who_1 = require("./who");
-exports.Who = who_1.Who;
+Object.defineProperty(exports, "Who", { enumerable: true, get: function () { return who_1.Who; } });
 //# sourceMappingURL=index.js.map

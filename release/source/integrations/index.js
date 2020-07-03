@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 var types_1 = require("./types");
-exports.Types = types_1.Types;
+Object.defineProperty(exports, "Types", { enumerable: true, get: function () { return types_1.Types; } });
 var entity_1 = require("./entity");
-exports.Entity = entity_1.Entity;
+Object.defineProperty(exports, "Entity", { enumerable: true, get: function () { return entity_1.Entity; } });
 //# sourceMappingURL=index.js.map

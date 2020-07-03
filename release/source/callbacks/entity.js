@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Entity = void 0;
 /*!
  * Copyright (C) 2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
@@ -32,33 +33,11 @@ let Entity = class Entity extends Class.Null {
     }
 };
 __decorate([
+    RestDB.Schema.Primary(),
     RestDB.Schema.Required(),
-    RestDB.Schema.Object(Documents.Entity),
+    RestDB.Schema.String(0, 36),
     Class.Public()
-], Entity.prototype, "document", void 0);
-__decorate([
-    RestDB.Schema.Alias('event_hash'),
-    RestDB.Schema.Required(),
-    RestDB.Schema.String(),
-    Class.Public()
-], Entity.prototype, "eventHash", void 0);
-__decorate([
-    RestDB.Schema.Alias('event_time'),
-    RestDB.Schema.Required(),
-    RestDB.Schema.String(),
-    Class.Public()
-], Entity.prototype, "eventTime", void 0);
-__decorate([
-    RestDB.Schema.Alias('event_type'),
-    RestDB.Schema.Required(),
-    RestDB.Schema.Enumeration(Object.values(Types.Event)),
-    Class.Public()
-], Entity.prototype, "eventType", void 0);
-__decorate([
-    RestDB.Schema.Object(Signatures.Responses.Internals.Signer),
-    RestDB.Schema.Null(),
-    Class.Public()
-], Entity.prototype, "signer", void 0);
+], Entity.prototype, "uuid", void 0);
 __decorate([
     RestDB.Schema.Required(),
     RestDB.Schema.Enumeration(Object.values(Types.Status)),
@@ -80,11 +59,33 @@ __decorate([
     Class.Public()
 ], Entity.prototype, "tokenName", void 0);
 __decorate([
-    RestDB.Schema.Primary(),
+    RestDB.Schema.Alias('event_type'),
     RestDB.Schema.Required(),
-    RestDB.Schema.String(0, 36),
+    RestDB.Schema.Enumeration(Object.values(Types.Event)),
     Class.Public()
-], Entity.prototype, "uuid", void 0);
+], Entity.prototype, "eventType", void 0);
+__decorate([
+    RestDB.Schema.Alias('event_time'),
+    RestDB.Schema.Required(),
+    RestDB.Schema.String(),
+    Class.Public()
+], Entity.prototype, "eventTime", void 0);
+__decorate([
+    RestDB.Schema.Alias('event_hash'),
+    RestDB.Schema.Required(),
+    RestDB.Schema.String(),
+    Class.Public()
+], Entity.prototype, "eventHash", void 0);
+__decorate([
+    RestDB.Schema.Object(Documents.Entity),
+    RestDB.Schema.Null(),
+    Class.Public()
+], Entity.prototype, "document", void 0);
+__decorate([
+    RestDB.Schema.Object(Signatures.Responses.Internals.Signer),
+    RestDB.Schema.Null(),
+    Class.Public()
+], Entity.prototype, "signer", void 0);
 __decorate([
     Class.Public()
 ], Entity.prototype, "validate", null);

@@ -19,47 +19,14 @@ import * as Types from './types';
 @Class.Describe()
 export class Entity extends Class.Null {
   /**
-   * Document entity.
+   * Event Id.
+   * Max 36 characters.
    */
+  @RestDB.Schema.Primary()
   @RestDB.Schema.Required()
-  @RestDB.Schema.Object(Documents.Entity)
+  @RestDB.Schema.String(0, 36)
   @Class.Public()
-  public document!: Documents.Entity;
-
-  /**
-   * Event hash.
-   */
-  @RestDB.Schema.Alias('event_hash')
-  @RestDB.Schema.Required()
-  @RestDB.Schema.String()
-  @Class.Public()
-  public eventHash!: string;
-
-  /**
-   * Event time.
-   */
-  @RestDB.Schema.Alias('event_time')
-  @RestDB.Schema.Required()
-  @RestDB.Schema.String()
-  @Class.Public()
-  public eventTime!: string;
-
-  /**
-   * Event type.
-   */
-  @RestDB.Schema.Alias('event_type')
-  @RestDB.Schema.Required()
-  @RestDB.Schema.Enumeration(Object.values(Types.Event))
-  @Class.Public()
-  public eventType!: Types.Event;
-
-  /**
-   * Signer entity.
-   */
-  @RestDB.Schema.Object(Signatures.Responses.Internals.Signer)
-  @RestDB.Schema.Null()
-  @Class.Public()
-  public signer?: Signatures.Responses.Internals.Signer | null;
+  public uuid!: string;
 
   /**
    * Status.
@@ -94,14 +61,47 @@ export class Entity extends Class.Null {
   public tokenName!: string;
 
   /**
-   * Event Id.
-   * Max 36 characters.
+   * Event type.
    */
-  @RestDB.Schema.Primary()
+  @RestDB.Schema.Alias('event_type')
   @RestDB.Schema.Required()
-  @RestDB.Schema.String(0, 36)
+  @RestDB.Schema.Enumeration(Object.values(Types.Event))
   @Class.Public()
-  public uuid!: string;
+  public eventType!: Types.Event;
+
+  /**
+   * Event time.
+   */
+  @RestDB.Schema.Alias('event_time')
+  @RestDB.Schema.Required()
+  @RestDB.Schema.String()
+  @Class.Public()
+  public eventTime!: string;
+
+  /**
+   * Event hash.
+   */
+  @RestDB.Schema.Alias('event_hash')
+  @RestDB.Schema.Required()
+  @RestDB.Schema.String()
+  @Class.Public()
+  public eventHash!: string;
+
+  /**
+   * Document entity.
+   */
+  @RestDB.Schema.Object(Documents.Entity)
+  @RestDB.Schema.Null()
+  @Class.Public()
+  public document?: Documents.Entity | null;
+
+  /**
+   * Signer entity.
+   */
+  @RestDB.Schema.Object(Signatures.Responses.Internals.Signer)
+  @RestDB.Schema.Null()
+  @Class.Public()
+  public signer?: Signatures.Responses.Internals.Signer | null;
 
   /**
    * Determines whether or not this event is valid according to the specified API token.

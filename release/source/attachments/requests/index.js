@@ -5,5 +5,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 var create_1 = require("./create");
-exports.Create = create_1.Create;
+Object.defineProperty(exports, "Create", { enumerable: true, get: function () { return create_1.Create; } });
 //# sourceMappingURL=index.js.map

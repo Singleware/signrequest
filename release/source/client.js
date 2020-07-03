@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Client = void 0;
 /*!
  * Copyright (C) 2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
@@ -72,13 +73,15 @@ let Client = class Client extends RestDB.Driver {
      */
     getInsertResponse(model, response) {
         this.payloadData = void 0;
-        if (response.status.code === 201) {
-            if (!(response.payload instanceof Object) || (this.payloadData = response.payload).uuid === void 0) {
-                throw new Error(`The response body must be an object containing the insert uuid.`);
-            }
+        if (response.status.code !== 201) {
+            throw new Error(`Unexpected response status: ${response.status.code}`);
+        }
+        else if (!((this.payloadData = response.payload) instanceof Object)) {
+            throw new Error(`Response body must have an object.`);
+        }
+        else {
             return this.payloadData.uuid;
         }
-        return void 0;
     }
     /**
      * Gets the updated entity status from the given response entity.

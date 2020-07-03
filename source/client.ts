@@ -72,15 +72,15 @@ export class Client extends RestDB.Driver {
    * @throws Throws an error when the response body doesn't contains the insert results.
    */
   @Class.Protected()
-  protected getInsertResponse(model: RestDB.Model, response: RestDB.Responses.Output): string | undefined {
+  protected getInsertResponse<R>(model: RestDB.Model, response: RestDB.Responses.Output): R | Promise<R> {
     this.payloadData = void 0;
-    if (response.status.code === 201) {
-      if (!(response.payload instanceof Object) || (this.payloadData = <RestDB.Entity>response.payload).uuid === void 0) {
-        throw new Error(`The response body must be an object containing the insert uuid.`);
-      }
-      return this.payloadData.uuid;
+    if (response.status.code !== 201) {
+      throw new Error(`Unexpected response status: ${response.status.code}`);
+    } else if (!((this.payloadData = response.payload) instanceof Object)) {
+      throw new Error(`Response body must have an object.`);
+    } else {
+      return <R>this.payloadData.uuid;
     }
-    return void 0;
   }
 
   /**

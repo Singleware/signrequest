@@ -7,25 +7,10 @@ import * as Types from './types';
  */
 export declare class Entity extends Class.Null {
     /**
-     * Document entity.
+     * Event Id.
+     * Max 36 characters.
      */
-    document: Documents.Entity;
-    /**
-     * Event hash.
-     */
-    eventHash: string;
-    /**
-     * Event time.
-     */
-    eventTime: string;
-    /**
-     * Event type.
-     */
-    eventType: Types.Event;
-    /**
-     * Signer entity.
-     */
-    signer?: Signatures.Responses.Internals.Signer | null;
+    uuid: string;
     /**
      * Status.
      */
@@ -43,10 +28,25 @@ export declare class Entity extends Class.Null {
      */
     tokenName: string;
     /**
-     * Event Id.
-     * Max 36 characters.
+     * Event type.
      */
-    uuid: string;
+    eventType: Types.Event;
+    /**
+     * Event time.
+     */
+    eventTime: string;
+    /**
+     * Event hash.
+     */
+    eventHash: string;
+    /**
+     * Document entity.
+     */
+    document?: Documents.Entity | null;
+    /**
+     * Signer entity.
+     */
+    signer?: Signatures.Responses.Internals.Signer | null;
     /**
      * Determines whether or not this event is valid according to the specified API token.
      * @param token Token.
