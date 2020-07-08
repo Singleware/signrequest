@@ -22,9 +22,10 @@ export class Entity extends Class.Null {
   /**
    * Document URL.
    */
+  @RestDB.Schema.Required()
   @RestDB.Schema.String()
   @Class.Public()
-  public url?: string;
+  public url!: string;
 
   /**
    * Team data.
@@ -206,10 +207,32 @@ export class Entity extends Class.Null {
    * Sign request object.
    */
   @RestDB.Schema.Alias('signrequest')
-  @RestDB.Schema.Object(Signatures.Entity)
+  @RestDB.Schema.Object(Signatures.Entity, [
+    'fromEmail',
+    'fromEmailName',
+    'isBeingPrepared',
+    'prepareUrl',
+    'redirectUrl',
+    'redirectUrlDeclined',
+    'requiredAttachments',
+    'disableAttachments',
+    'disableTextSignatures',
+    'disableText',
+    'disableDate',
+    'disableEmails',
+    'disableUploadSignatures',
+    'disableBlockchainProof',
+    'textMessageVerificationLocked',
+    'subject',
+    'message',
+    'who',
+    'sendReminders',
+    'signers',
+    'uuid'
+  ])
   @RestDB.Schema.Null()
   @Class.Public()
-  public signRequest?: Signatures.Entity | null;
+  public signRequest?: Omit<Signatures.Entity, 'document'> | null;
 
   /**
    * Indicates whether document was created using the API.
@@ -224,10 +247,10 @@ export class Entity extends Class.Null {
    * Document signing log.
    */
   @RestDB.Schema.Alias('signing_log')
-  @RestDB.Schema.Array(Internals.Signing)
+  @RestDB.Schema.Object(Internals.SigningLog)
   @RestDB.Schema.Null()
   @Class.Public()
-  public signingLog?: Internals.Signing[] | null;
+  public signingLog?: Internals.SigningLog | null;
 
   /**
    * SHA256 hash of PDF contents.

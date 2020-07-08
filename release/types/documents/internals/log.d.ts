@@ -4,9 +4,9 @@
  */
 import * as Class from '@singleware/class';
 /**
- * Signing entity class.
+ * Signing log entity class.
  */
-export declare class Signing extends Class.Null {
+export declare class SigningLog extends Class.Null {
     /**
      * Temporary URL to signing log, expires in five minutes
      */

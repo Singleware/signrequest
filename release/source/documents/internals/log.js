@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Signing = void 0;
+exports.SigningLog = void 0;
 /*!
  * Copyright (C) 2019 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
@@ -14,24 +14,24 @@ exports.Signing = void 0;
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
 /**
- * Signing entity class.
+ * Signing log entity class.
  */
-let Signing = class Signing extends Class.Null {
+let SigningLog = class SigningLog extends Class.Null {
 };
 __decorate([
     RestDB.Schema.String(),
     RestDB.Schema.Null(),
     Class.Public()
-], Signing.prototype, "pdf", void 0);
+], SigningLog.prototype, "pdf", void 0);
 __decorate([
     RestDB.Schema.Alias('security_hash'),
     RestDB.Schema.String(),
     RestDB.Schema.Null(),
     Class.Public()
-], Signing.prototype, "securityHash", void 0);
-Signing = __decorate([
-    RestDB.Schema.Entity('documents/signing'),
+], SigningLog.prototype, "securityHash", void 0);
+SigningLog = __decorate([
+    RestDB.Schema.Entity('documents/signing-log'),
     Class.Describe()
-], Signing);
-exports.Signing = Signing;
-//# sourceMappingURL=signing.js.map
+], SigningLog);
+exports.SigningLog = SigningLog;
+//# sourceMappingURL=log.js.map

@@ -42,7 +42,7 @@ export declare class Entity extends Class.Null {
     /**
      * Document entity.
      */
-    document?: Documents.Entity | null;
+    document: Omit<Documents.Entity, 'url'>;
     /**
      * Signer entity.
      */

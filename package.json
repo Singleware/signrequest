@@ -7,7 +7,7 @@
   "name": "@singleware/signrequest",
   "description": "Singleware package containing a rest client for the SignRequest API",
   "license": "MIT",
-  "version": "1.0.15",
+  "version": "1.0.18",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@singleware/testing": "^1.0.1",
-    "@types/node": "^12.12.47",
+    "@types/node": "^12.12.48",
     "prettier": "^1.19.1",
     "typescript": "^3.9.6"
   },

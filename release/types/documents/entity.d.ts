@@ -16,7 +16,7 @@ export declare class Entity extends Class.Null {
     /**
      * Document URL.
      */
-    url?: string;
+    url: string;
     /**
      * Team data.
      */
@@ -106,7 +106,7 @@ export declare class Entity extends Class.Null {
     /**
      * Sign request object.
      */
-    signRequest?: Signatures.Entity | null;
+    signRequest?: Omit<Signatures.Entity, 'document'> | null;
     /**
      * Indicates whether document was created using the API.
      */
@@ -114,7 +114,7 @@ export declare class Entity extends Class.Null {
     /**
      * Document signing log.
      */
-    signingLog?: Internals.Signing[] | null;
+    signingLog?: Internals.SigningLog | null;
     /**
      * SHA256 hash of PDF contents.
      */

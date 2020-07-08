@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 var team_1 = require("./team");
 Object.defineProperty(exports, "Team", { enumerable: true, get: function () { return team_1.Team; } });
-var signing_1 = require("./signing");
-Object.defineProperty(exports, "Signing", { enumerable: true, get: function () { return signing_1.Signing; } });
+var log_1 = require("./log");
+Object.defineProperty(exports, "SigningLog", { enumerable: true, get: function () { return log_1.SigningLog; } });
 var prefill_1 = require("./prefill");
 Object.defineProperty(exports, "PreFill", { enumerable: true, get: function () { return prefill_1.PreFill; } });
 var sf_1 = require("./sf");

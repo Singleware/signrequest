@@ -6,11 +6,11 @@ import * as Class from '@singleware/class';
 import * as RestDB from '@singleware/restdb';
 
 /**
- * Signing entity class.
+ * Signing log entity class.
  */
-@RestDB.Schema.Entity('documents/signing')
+@RestDB.Schema.Entity('documents/signing-log')
 @Class.Describe()
-export class Signing extends Class.Null {
+export class SigningLog extends Class.Null {
   /**
    * Temporary URL to signing log, expires in five minutes
    */

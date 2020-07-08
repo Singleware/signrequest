@@ -77,8 +77,38 @@ __decorate([
     Class.Public()
 ], Entity.prototype, "eventHash", void 0);
 __decorate([
-    RestDB.Schema.Object(Documents.Entity),
-    RestDB.Schema.Null(),
+    RestDB.Schema.Required(),
+    RestDB.Schema.Object(Documents.Entity, [
+        'team',
+        'uuid',
+        'user',
+        'fileAsPdf',
+        'name',
+        'externalId',
+        'frontendId',
+        'file',
+        'fileFromUrl',
+        'eventsCallbackUrl',
+        'fileFromContent',
+        'fileFromContentName',
+        'template',
+        'preFillTags',
+        'integrations',
+        'fileFromSF',
+        'autoDeleteDays',
+        'autoExpireDays',
+        'pdf',
+        'status',
+        'signRequest',
+        'apiUsed',
+        'signingLog',
+        'securityHash',
+        'attachments',
+        'autoDeleteAfter',
+        'sandbox',
+        'autoExpireAfter',
+        'processing'
+    ]),
     Class.Public()
 ], Entity.prototype, "document", void 0);
 __decorate([

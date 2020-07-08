@@ -25,6 +25,7 @@ const Responses = require("./responses");
 let Entity = class Entity extends Class.Null {
 };
 __decorate([
+    RestDB.Schema.Required(),
     RestDB.Schema.String(),
     Class.Public()
 ], Entity.prototype, "url", void 0);
@@ -140,7 +141,29 @@ __decorate([
 ], Entity.prototype, "status", void 0);
 __decorate([
     RestDB.Schema.Alias('signrequest'),
-    RestDB.Schema.Object(Signatures.Entity),
+    RestDB.Schema.Object(Signatures.Entity, [
+        'fromEmail',
+        'fromEmailName',
+        'isBeingPrepared',
+        'prepareUrl',
+        'redirectUrl',
+        'redirectUrlDeclined',
+        'requiredAttachments',
+        'disableAttachments',
+        'disableTextSignatures',
+        'disableText',
+        'disableDate',
+        'disableEmails',
+        'disableUploadSignatures',
+        'disableBlockchainProof',
+        'textMessageVerificationLocked',
+        'subject',
+        'message',
+        'who',
+        'sendReminders',
+        'signers',
+        'uuid'
+    ]),
     RestDB.Schema.Null(),
     Class.Public()
 ], Entity.prototype, "signRequest", void 0);
@@ -152,7 +175,7 @@ __decorate([
 ], Entity.prototype, "apiUsed", void 0);
 __decorate([
     RestDB.Schema.Alias('signing_log'),
-    RestDB.Schema.Array(Internals.Signing),
+    RestDB.Schema.Object(Internals.SigningLog),
     RestDB.Schema.Null(),
     Class.Public()
 ], Entity.prototype, "signingLog", void 0);
