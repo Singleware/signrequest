@@ -36,17 +36,14 @@ export class Signatures extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async createSignatureSuccessful(): Promise<void> {
-    // Create new document.
-    const document = <SignRequest.Documents.Entity>await Helper.getNewDocumentEntity();
-    this.areNotSame(document, void 0);
-    // Test signature creation.
-    const inserted = <SignRequest.Signatures.Entity>await this.signatures.create({
+    const document = await Helper.getNewDocumentEntity();
+    const uuid = await this.signatures.create({
       fromEmail: 'team@singleware.com.br',
       signers: [{ email: 'team@singleware.com.br' }],
-      document: <string>document.url,
-      requiredAttachments: [{ name: 'identity' }]
+      requiredAttachments: [{ name: 'identity' }],
+      document: document.url
     });
-    this.areNotSame(inserted, void 0);
+    this.areNotSame(uuid, void 0);
   }
 
   /**
@@ -55,13 +52,10 @@ export class Signatures extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async readSignatureSuccessful(): Promise<void> {
-    // Create new signature.
-    const inserted = <SignRequest.Signatures.Entity>await Helper.getNewSignatureEntity();
-    this.areNotSame(inserted, void 0);
-    // Test signature loading.
-    const loaded = <SignRequest.Signatures.Entity>await this.signatures.read(inserted.uuid);
+    const inserted = await Helper.getNewSignatureEntity();
+    const loaded = await this.signatures.read(inserted.uuid);
     this.areNotSame(loaded, void 0);
-    this.areSame(inserted.uuid, loaded.uuid);
+    this.areSame(inserted.uuid, loaded!.uuid);
   }
 
   /**
@@ -70,10 +64,8 @@ export class Signatures extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async cancelSignatureSuccessful(): Promise<void> {
-    // Create new signature.
-    const signature = <SignRequest.Signatures.Entity>await Helper.getNewSignatureEntity();
-    this.areNotSame(signature, void 0);
-    // Test signature cancellation.
+    const signature = await Helper.getNewSignatureEntity();
+    this.areNotSame(signature.uuid, void 0);
     this.isTrue(await this.signatures.cancel(signature.uuid));
   }
 
@@ -83,10 +75,8 @@ export class Signatures extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async resendSignatureSuccessful(): Promise<void> {
-    // Create new signature.
-    const signature = <SignRequest.Signatures.Entity>await Helper.getNewSignatureEntity();
-    this.areNotSame(signature, void 0);
-    // Test signature resending.
+    const signature = await Helper.getNewSignatureEntity();
+    this.areNotSame(signature.uuid, void 0);
     this.isTrue(await this.signatures.resend(signature.uuid));
   }
 }

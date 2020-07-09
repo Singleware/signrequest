@@ -13,7 +13,7 @@ exports.Input = void 0;
  */
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
-const Types = require("../../types");
+const Types = require("../types");
 /**
  * Input entity class.
  */

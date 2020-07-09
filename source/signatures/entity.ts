@@ -7,8 +7,8 @@ import * as RestDB from '@singleware/restdb';
 
 import * as Integrations from '../integrations';
 
+import * as Internals from './internals';
 import * as Types from './types';
-import * as Responses from './responses';
 
 /**
  * Signature entity class.
@@ -80,9 +80,9 @@ export class Entity extends Class.Null {
    * Attachments that signers are required to upload.
    */
   @RestDB.Schema.Alias('required_attachments')
-  @RestDB.Schema.Array(Responses.Internals.Attachment)
+  @RestDB.Schema.Array(Internals.Attachment)
   @Class.Public()
-  public requiredAttachments?: Responses.Internals.Attachment[];
+  public requiredAttachments?: Internals.Attachment[];
 
   /**
    * Disable uploading/adding of attachments.
@@ -188,9 +188,9 @@ export class Entity extends Class.Null {
    * Document signers.
    */
   @RestDB.Schema.Required()
-  @RestDB.Schema.Array(Responses.Internals.Signer)
+  @RestDB.Schema.Array(Internals.Signer)
   @Class.Public()
-  public signers!: Responses.Internals.Signer[];
+  public signers!: Internals.Signer[];
 
   /**
    * Document Id.

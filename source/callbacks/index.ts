@@ -4,10 +4,5 @@
  */
 export { Entity } from './entity';
 
-// Imported aliases.
-import * as Types from './types';
-
-/**
- * Types namespace.
- */
-export import Types = Types;
+export * as Types from './types';
+export * as Internals from './internals';

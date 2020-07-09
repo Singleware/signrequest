@@ -3,8 +3,5 @@
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 export { Entity } from './entity';
-import * as Types from './types';
-/**
- * Types namespace.
- */
-export import Types = Types;
+export * as Types from './types';
+export * as Internals from './internals';

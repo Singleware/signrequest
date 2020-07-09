@@ -36,16 +36,13 @@ export class Attachments extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async createAttachmentSuccessful(): Promise<void> {
-    // Create new document.
-    const document = <SignRequest.Documents.Entity>await Helper.getNewDocumentEntity();
-    this.areNotSame(document, void 0);
-    // Test attachment creation.
-    const inserted = <SignRequest.Attachments.Entity>await this.attachments.create({
+    const document = await Helper.getNewDocumentEntity();
+    const uuid = await this.attachments.create({
       fileFromContent: '<h1>Test Attachment</h1>',
       fileFromContentName: 'attachment.html',
-      document: <string>document.url
+      document: document.url
     });
-    this.areNotSame(inserted, void 0);
+    this.areNotSame(uuid, void 0);
   }
 
   /**
@@ -54,12 +51,9 @@ export class Attachments extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async readAttachmentSuccessful(): Promise<void> {
-    // Create new attachment.
-    const inserted = <SignRequest.Attachments.Entity>await Helper.getNewAttachmentEntity();
-    this.areNotSame(inserted, void 0);
-    // Test attachment loading.
-    const loaded = <SignRequest.Attachments.Entity>await this.attachments.read(inserted.uuid);
+    const inserted = await Helper.getNewAttachmentEntity();
+    const loaded = await this.attachments.read(inserted.uuid);
     this.areNotSame(loaded, void 0);
-    this.areSame(inserted.uuid, loaded.uuid);
+    this.areSame(inserted.uuid, loaded!.uuid);
   }
 }

@@ -6,9 +6,7 @@ import * as Class from '@singleware/class';
 import * as RestDB from '@singleware/restdb';
 
 import * as Integrations from '../../integrations';
-
 import * as Internals from '../internals';
-import * as RequestInternals from './internals';
 
 /**
  * Create document, entity class.
@@ -19,9 +17,9 @@ export class Create extends Class.Null {
   /**
    * User data.
    */
-  @RestDB.Schema.Object(RequestInternals.User)
+  @RestDB.Schema.Object(Internals.User, Internals.Request.LightUserFields)
   @Class.Public()
-  public user?: RequestInternals.User;
+  public user?: Internals.Request.LightUser;
 
   /**
    * Defaults to filename, including extension.

@@ -5,7 +5,6 @@
 import * as Class from '@singleware/class';
 import * as Integrations from '../../integrations';
 import * as Internals from '../internals';
-import * as RequestInternals from './internals';
 /**
  * Create document, entity class.
  */
@@ -13,7 +12,7 @@ export declare class Create extends Class.Null {
     /**
      * User data.
      */
-    user?: RequestInternals.User;
+    user?: Internals.Request.LightUser;
     /**
      * Defaults to filename, including extension.
      */

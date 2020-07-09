@@ -4,11 +4,9 @@
  */
 import * as Class from '@singleware/class';
 import * as Attachments from '../attachments';
-import * as Signatures from '../signatures';
 import * as Integrations from '../integrations';
 import * as Types from './types';
 import * as Internals from './internals';
-import * as Responses from './responses';
 /**
  * Document entity class.
  */
@@ -29,7 +27,7 @@ export declare class Entity extends Class.Null {
     /**
      * User data.
      */
-    user?: Responses.Internals.User | null;
+    user?: Internals.User | null;
     /**
      * Temporary URL to original file as PDF, expires in five minutes.
      */
@@ -106,7 +104,7 @@ export declare class Entity extends Class.Null {
     /**
      * Sign request object.
      */
-    signRequest?: Omit<Signatures.Entity, 'document'> | null;
+    signRequest?: Internals.LightSignature | null;
     /**
      * Indicates whether document was created using the API.
      */

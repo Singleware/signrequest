@@ -5,10 +5,4 @@
 export { Mapper } from './mapper';
 export { Entity } from './entity';
 
-// Imported aliases.
-import * as Requests from './requests';
-
-/**
- * Requests namespace.
- */
-export import Requests = Requests;
+export * as Requests from './requests';

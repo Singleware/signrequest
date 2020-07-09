@@ -10,6 +10,10 @@ import { Entity } from './entity';
  */
 export declare class Mapper extends Class.Null {
     /**
+     * Last response payload.
+     */
+    private lastPayload;
+    /**
      * Client instance.
      */
     private client;
@@ -18,15 +22,20 @@ export declare class Mapper extends Class.Null {
      */
     private mapper;
     /**
+     * Get the last request payload.
+     */
+    get payload(): Entity | undefined;
+    /**
      * Creates a new signature request.
      * @param request Signature creation request.
-     * @returns Returns a promise to get the signature entity or undefined when the operation has been failed.
+     * @returns Returns a promise to get the signature Id.
+     * @throws Throws an error when the server response is invalid.
      */
-    create(request: Requests.Create): Promise<Entity | undefined>;
+    create(request: Requests.Create): Promise<string>;
     /**
      * Read the signature that corresponds to the specified Id.
      * @param id Signature Id.
-     * @returns Returns a promise to get the signature entity or undefined when the signature wasn't found.
+     * @returns Returns a promise to get the signature entity or undefined when it wasn't found.
      */
     read(id: string): Promise<Entity | undefined>;
     /**

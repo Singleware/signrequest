@@ -4,8 +4,4 @@
  */
 export { Mapper } from './mapper';
 export { Entity } from './entity';
-import * as Requests from './requests';
-/**
- * Requests namespace.
- */
-export import Requests = Requests;
+export * as Requests from './requests';

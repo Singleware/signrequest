@@ -18,6 +18,12 @@ import { Entity } from './entity';
 @Class.Describe()
 export class Mapper extends Class.Null {
   /**
+   * Last response payload.
+   */
+  @Class.Private()
+  private lastPayload: Entity | undefined;
+
+  /**
    * Client instance.
    */
   @Injection.Inject(() => Client)
@@ -31,26 +37,40 @@ export class Mapper extends Class.Null {
   private mapper = new RestDB.Mapper<Entity>(this.client, Entity);
 
   /**
-   * Creates a new document request.
-   * @param request Document creation request.
-   * @returns Returns a promise to get the document entity or undefined when the operation has been failed.
+   * Get the last request payload.
    */
   @Class.Public()
-  public async create(request: Requests.Create): Promise<Entity | undefined> {
-    if ((await this.mapper.insertEx(Requests.Create, request)) !== void 0) {
-      return RestDB.Outputer.createFull(Entity, <RestDB.Entity>this.client.payload, []);
+  public get payload(): Entity | undefined {
+    return this.lastPayload;
+  }
+
+  /**
+   * Create a new document request.
+   * @param request Document creation request.
+   * @returns Returns a promise to get the document Id.
+   * @throws Throws an error when the server response is invalid.
+   */
+  @Class.Public()
+  public async create(request: Requests.Create): Promise<string> {
+    this.lastPayload = void 0;
+    const uuid = await this.mapper.insertEx(Requests.Create, request);
+    if (uuid === void 0) {
+      throw new Error(`Unexpected server response.`);
     }
-    return void 0;
+    this.lastPayload = RestDB.Outputer.createFull(Entity, this.client.payload!, []);
+    return uuid;
   }
 
   /**
    * Read the document that corresponds to the specified document Id.
    * @param id Document Id.
-   * @returns Returns a promise to get the document entity or undefined when the document wasn't found.
+   * @returns Returns a promise to get the document entity or undefined when it wasn't found.
    */
   @Class.Public()
   public async read(id: string): Promise<Entity | undefined> {
-    return await this.mapper.findById(id);
+    this.lastPayload = void 0;
+    this.lastPayload = await this.mapper.findById(id);
+    return this.lastPayload;
   }
 
   /**
@@ -60,6 +80,7 @@ export class Mapper extends Class.Null {
    */
   @Class.Public()
   public async delete(id: string): Promise<boolean> {
+    this.lastPayload = void 0;
     return await this.mapper.deleteById(id);
   }
 }

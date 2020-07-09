@@ -36,13 +36,13 @@ export class Documents extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async createDocumentSuccessful(): Promise<void> {
-    const inserted = <SignRequest.Documents.Entity>await this.documents.create({
+    const uuid = await this.documents.create({
       fileFromContent: '<h1>Test Document</h1>',
       fileFromContentName: 'test.html',
       autoExpireDays: 1,
       autoDeleteDays: 1
     });
-    this.areNotSame(inserted, void 0);
+    this.areNotSame(uuid, void 0);
   }
 
   /**
@@ -51,13 +51,10 @@ export class Documents extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async readDocumentSuccessful(): Promise<void> {
-    // Create new document.
-    const inserted = <SignRequest.Documents.Entity>await Helper.getNewDocumentEntity();
-    this.areNotSame(inserted, void 0);
-    // Test document loading.
-    const loaded = <SignRequest.Documents.Entity>await this.documents.read(inserted.uuid);
+    const inserted = await Helper.getNewDocumentEntity();
+    const loaded = await this.documents.read(inserted.uuid);
     this.areNotSame(loaded, void 0);
-    this.areSame(inserted.uuid, loaded.uuid);
+    this.areSame(inserted.uuid, loaded!.uuid);
   }
 
   /**
@@ -66,10 +63,8 @@ export class Documents extends Testing.Case {
   @Testing.Method()
   @Class.Public()
   public async deleteDocumentSuccessful(): Promise<void> {
-    // Create new document.
-    const inserted = <SignRequest.Documents.Entity>await Helper.getNewDocumentEntity();
-    this.areNotSame(inserted, void 0);
-    // Test document removal.
+    const inserted = await Helper.getNewDocumentEntity();
+    this.areNotSame(inserted.uuid, void 0);
     this.isTrue(await this.documents.delete(inserted.uuid));
   }
 }

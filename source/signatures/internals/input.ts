@@ -5,7 +5,7 @@
 import * as Class from '@singleware/class';
 import * as RestDB from '@singleware/restdb';
 
-import * as Types from '../../types';
+import * as Types from '../types';
 
 /**
  * Input entity class.

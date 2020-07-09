@@ -13,10 +13,10 @@ exports.Signer = void 0;
  */
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
-const Integrations = require("../../../integrations");
-const Types = require("../../types");
-const input_1 = require("./input");
+const Integrations = require("../../integrations");
+const Types = require("../types");
 const attachment_1 = require("./attachment");
+const input_1 = require("./input");
 /**
  * Signer entity class.
  */
@@ -158,7 +158,7 @@ __decorate([
     RestDB.Schema.String(0, 255),
     RestDB.Schema.Null(),
     Class.Public()
-], Signer.prototype, "embedUrlUerId", void 0);
+], Signer.prototype, "embedUrlUserId", void 0);
 __decorate([
     RestDB.Schema.Array(input_1.Input),
     Class.Public()

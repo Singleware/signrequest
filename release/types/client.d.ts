@@ -6,78 +6,67 @@ export declare class Client extends RestDB.Driver {
     /**
      * Last payload data.
      */
-    private payloadData?;
+    private lastPayload?;
     /**
-     * Gets the request Id based on the specified entity model and entity Id.
-     * @param model Entity model.
-     * @param id Entity Id.
-     * @returns Returns the request Id.
-     */
-    protected getRequestId(model: RestDB.Model, id: string): string;
-    /**
-     * Gets the request query string based on the specified entity model, fields and query filter.
-     * @param model Entity model.
-     * @param query Query filter.
-     * @param select Optional fields to select.
-     * @returns Returns the parsed query string.
-     * @throws Throws an error when used with filters or select fields. (Feature not supported)
-     */
-    protected getRequestQuery(model: RestDB.Model, query?: RestDB.Query, select?: string[]): string;
-    /**
-     * Gets the request method based on the specified entity model.
-     * @param model Entity model.
-     * @param method Request method.
-     * @returns Returns the request method.
-     */
-    protected getRequestMethod(model: RestDB.Model, method: RestDB.Method): RestDB.Method;
-    /**
-     * Gets the result Id from the given response entity.
+     * Get the insert result from the given response entity.
      * @param model Entity model.
      * @param response Response entity.
-     * @returns Returns the result Id or undefined when the result Id was not found.
-     * @throws Throws an error when the response body doesn't contains the insert results.
+     * @returns Returns the insert result.
+     * @throws Throws an error when the server response is invalid.
      */
-    protected getInsertResponse<R>(model: RestDB.Model, response: RestDB.Responses.Output): R | Promise<R>;
+    protected getInsertResponse<T>(model: RestDB.Model, response: RestDB.Responses.Output): T;
     /**
-     * Gets the updated entity status from the given response entity.
+     * Get the found entity from the given response entity.
      * @param model Entity model.
      * @param response Response entity.
-     * @returns Returns the updated entity status or a promise to get it.
+     * @returns Returns the entity or undefined when the entity wasn't found.
+     * @throws Throws an error when the server response is invalid.
+     */
+    protected getFindByIdResponse<T>(model: RestDB.Model, response: RestDB.Responses.Output): T | undefined;
+    /**
+     * Get the updated entity status from the given response entity.
+     * @param model Entity model.
+     * @param response Response entity.
+     * @returns Returns the updated entity status.
+     * @throws Throws an error when the server response is invalid.
      */
     protected getUpdateByIdResponse(model: RestDB.Model, response: RestDB.Responses.Output): boolean;
     /**
-     * Gets the found entity from the given response entity.
-     * @param model Entity model.
-     * @param response Response entity.
-     * @returns Returns the entity, a promise to get it or undefined when the entity was not found.
-     */
-    protected getFindByIdResponse<T extends RestDB.Entity>(model: RestDB.Model, response: RestDB.Responses.Output): T | undefined;
-    /**
-     * Gets the deleted entity status from the given response entity.
+     * Get the deleted entity status from the given response entity.
      * @param model Entity model.
      * @param response Response entity.
      * @returns Returns the deleted entity status.
      */
     protected getDeleteByIdResponse(model: RestDB.Model, response: RestDB.Responses.Output): boolean;
     /**
-     * Notify an error in the given response entity for all listeners.
+     * Get the request query string based on the specified entity model, filters and fields.
      * @param model Entity model.
-     * @param response Response entity.
+     * @param query Query filter.
+     * @param fields Fields to select.
+     * @returns Returns the instance itself.
+     * @throws Throws an error when used with filters or selected fields. (Features doesn't supported)
      */
-    protected notifyErrorResponse(model: RestDB.Model, response: RestDB.Responses.Output): Promise<void>;
+    protected getRequestQuery(model: RestDB.Model, query?: RestDB.Query, select?: string[]): string;
+    /**
+     * Get the request Id based on the specified entity model and entity Id.
+     * @param model Entity model.
+     * @param id Entity Id.
+     * @returns Returns the request Id.
+     */
+    protected getRequestId(model: RestDB.Model, id: string): string;
     /**
      * Default constructor.
      */
     constructor();
     /**
-     * Gets the payload from the last request.
+     * Get the last request payload.
      */
     get payload(): RestDB.Entity | undefined;
     /**
-     * Sets the authorization token for all subsequent requests.
+     * Set the authorization token for all subsequent requests.
      * @param token Username.
      * @param password Password.
-     * @returns Returns the client instance.
+     * @returns Returns the instance itself.
      */
     setAuthorization(token: string): Client;
 }

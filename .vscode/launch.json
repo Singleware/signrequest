@@ -9,9 +9,6 @@
             "request": "launch",
             "name": "Debug Test",
             "program": "${workspaceFolder}/release/tests/suite.js",
-            "env": {
-                "TZ": "America/Sao_Paulo",
-            },
             "smartStep": true,
             "sourceMaps": true,
             "outFiles": [

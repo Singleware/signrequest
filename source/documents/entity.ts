@@ -11,7 +11,6 @@ import * as Integrations from '../integrations';
 
 import * as Types from './types';
 import * as Internals from './internals';
-import * as Responses from './responses';
 
 /**
  * Document entity class.
@@ -48,10 +47,10 @@ export class Entity extends Class.Null {
   /**
    * User data.
    */
-  @RestDB.Schema.Object(Responses.Internals.User)
+  @RestDB.Schema.Object(Internals.User)
   @RestDB.Schema.Null()
   @Class.Public()
-  public user?: Responses.Internals.User | null;
+  public user?: Internals.User | null;
 
   /**
    * Temporary URL to original file as PDF, expires in five minutes.
@@ -207,32 +206,10 @@ export class Entity extends Class.Null {
    * Sign request object.
    */
   @RestDB.Schema.Alias('signrequest')
-  @RestDB.Schema.Object(Signatures.Entity, [
-    'fromEmail',
-    'fromEmailName',
-    'isBeingPrepared',
-    'prepareUrl',
-    'redirectUrl',
-    'redirectUrlDeclined',
-    'requiredAttachments',
-    'disableAttachments',
-    'disableTextSignatures',
-    'disableText',
-    'disableDate',
-    'disableEmails',
-    'disableUploadSignatures',
-    'disableBlockchainProof',
-    'textMessageVerificationLocked',
-    'subject',
-    'message',
-    'who',
-    'sendReminders',
-    'signers',
-    'uuid'
-  ])
+  @RestDB.Schema.Object(Signatures.Entity, Internals.LightSignatureFields)
   @RestDB.Schema.Null()
   @Class.Public()
-  public signRequest?: Omit<Signatures.Entity, 'document'> | null;
+  public signRequest?: Internals.LightSignature | null;
 
   /**
    * Indicates whether document was created using the API.

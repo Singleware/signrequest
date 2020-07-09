@@ -16,6 +16,7 @@ const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
 const Documents = require("../documents");
 const Signatures = require("../signatures");
+const Internals = require("./internals");
 const Types = require("./types");
 /**
  * Event entity class.
@@ -78,41 +79,11 @@ __decorate([
 ], Entity.prototype, "eventHash", void 0);
 __decorate([
     RestDB.Schema.Required(),
-    RestDB.Schema.Object(Documents.Entity, [
-        'team',
-        'uuid',
-        'user',
-        'fileAsPdf',
-        'name',
-        'externalId',
-        'frontendId',
-        'file',
-        'fileFromUrl',
-        'eventsCallbackUrl',
-        'fileFromContent',
-        'fileFromContentName',
-        'template',
-        'preFillTags',
-        'integrations',
-        'fileFromSF',
-        'autoDeleteDays',
-        'autoExpireDays',
-        'pdf',
-        'status',
-        'signRequest',
-        'apiUsed',
-        'signingLog',
-        'securityHash',
-        'attachments',
-        'autoDeleteAfter',
-        'sandbox',
-        'autoExpireAfter',
-        'processing'
-    ]),
+    RestDB.Schema.Object(Documents.Entity, Internals.LightDocumentFields),
     Class.Public()
 ], Entity.prototype, "document", void 0);
 __decorate([
-    RestDB.Schema.Object(Signatures.Responses.Internals.Signer),
+    RestDB.Schema.Object(Signatures.Internals.Signer),
     RestDB.Schema.Null(),
     Class.Public()
 ], Entity.prototype, "signer", void 0);

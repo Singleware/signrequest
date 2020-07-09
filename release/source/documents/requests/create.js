@@ -15,14 +15,13 @@ const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
 const Integrations = require("../../integrations");
 const Internals = require("../internals");
-const RequestInternals = require("./internals");
 /**
  * Create document, entity class.
  */
 let Create = class Create extends Class.Null {
 };
 __decorate([
-    RestDB.Schema.Object(RequestInternals.User),
+    RestDB.Schema.Object(Internals.User, Internals.Request.LightUserFields),
     Class.Public()
 ], Create.prototype, "user", void 0);
 __decorate([

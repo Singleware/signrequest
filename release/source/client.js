@@ -14,7 +14,6 @@ exports.Client = void 0;
 const Class = require("@singleware/class");
 const Injection = require("@singleware/injection");
 const RestDB = require("@singleware/restdb");
-const SignatureRequests = require("./signatures/requests");
 /**
  * Client driver class.
  */
@@ -27,21 +26,73 @@ let Client = class Client extends RestDB.Driver {
         this.connect('https://signrequest.com/api/v1');
     }
     /**
-     * Gets the request Id based on the specified entity model and entity Id.
+     * Get the insert result from the given response entity.
      * @param model Entity model.
-     * @param id Entity Id.
-     * @returns Returns the request Id.
+     * @param response Response entity.
+     * @returns Returns the insert result.
+     * @throws Throws an error when the server response is invalid.
      */
-    getRequestId(model, id) {
-        return `${super.getRequestId(model, id)}/`;
+    getInsertResponse(model, response) {
+        this.lastPayload = response.payload;
+        if (response.status.code !== 201) {
+            throw new Error(`Unexpected insert(${response.input.method}) response status: ${response.status.code}`);
+        }
+        else if (!(this.lastPayload instanceof Object)) {
+            throw new Error(`Response body must have an object.`);
+        }
+        return this.lastPayload.uuid;
     }
     /**
-     * Gets the request query string based on the specified entity model, fields and query filter.
+     * Get the found entity from the given response entity.
+     * @param model Entity model.
+     * @param response Response entity.
+     * @returns Returns the entity or undefined when the entity wasn't found.
+     * @throws Throws an error when the server response is invalid.
+     */
+    getFindByIdResponse(model, response) {
+        this.lastPayload = response.payload;
+        if (response.status.code !== 200) {
+            throw new Error(`Unexpected find(${response.input.method}) response status: ${response.status.code}`);
+        }
+        else if (!(this.lastPayload instanceof Object)) {
+            throw new Error(`Response payload must be an object.`);
+        }
+        return this.lastPayload;
+    }
+    /**
+     * Get the updated entity status from the given response entity.
+     * @param model Entity model.
+     * @param response Response entity.
+     * @returns Returns the updated entity status.
+     * @throws Throws an error when the server response is invalid.
+     */
+    getUpdateByIdResponse(model, response) {
+        this.lastPayload = response.payload;
+        if (response.status.code !== 200) {
+            throw new Error(`Unexpected update(${response.input.method}) response status: ${response.status.code}`);
+        }
+        else if (!(this.lastPayload instanceof Object)) {
+            throw new Error(`Response payload must be an object.`);
+        }
+        return true;
+    }
+    /**
+     * Get the deleted entity status from the given response entity.
+     * @param model Entity model.
+     * @param response Response entity.
+     * @returns Returns the deleted entity status.
+     */
+    getDeleteByIdResponse(model, response) {
+        this.lastPayload = response.payload;
+        return response.status.code === 204;
+    }
+    /**
+     * Get the request query string based on the specified entity model, filters and fields.
      * @param model Entity model.
      * @param query Query filter.
-     * @param select Optional fields to select.
-     * @returns Returns the parsed query string.
-     * @throws Throws an error when used with filters or select fields. (Feature not supported)
+     * @param fields Fields to select.
+     * @returns Returns the instance itself.
+     * @throws Throws an error when used with filters or selected fields. (Features doesn't supported)
      */
     getRequestQuery(model, query, select) {
         if (query || (select && select.length > 0)) {
@@ -50,144 +101,52 @@ let Client = class Client extends RestDB.Driver {
         return '/';
     }
     /**
-     * Gets the request method based on the specified entity model.
+     * Get the request Id based on the specified entity model and entity Id.
      * @param model Entity model.
-     * @param method Request method.
-     * @returns Returns the request method.
+     * @param id Entity Id.
+     * @returns Returns the request Id.
      */
-    getRequestMethod(model, method) {
-        switch (model) {
-            case SignatureRequests.Cancel:
-            case SignatureRequests.Resend:
-                return RestDB.Method.POST;
-            default:
-                return method;
-        }
+    getRequestId(model, id) {
+        return `${super.getRequestId(model, id)}/`;
     }
     /**
-     * Gets the result Id from the given response entity.
-     * @param model Entity model.
-     * @param response Response entity.
-     * @returns Returns the result Id or undefined when the result Id was not found.
-     * @throws Throws an error when the response body doesn't contains the insert results.
-     */
-    getInsertResponse(model, response) {
-        this.payloadData = void 0;
-        if (response.status.code !== 201) {
-            throw new Error(`Unexpected response status: ${response.status.code}`);
-        }
-        else if (!((this.payloadData = response.payload) instanceof Object)) {
-            throw new Error(`Response body must have an object.`);
-        }
-        else {
-            return this.payloadData.uuid;
-        }
-    }
-    /**
-     * Gets the updated entity status from the given response entity.
-     * @param model Entity model.
-     * @param response Response entity.
-     * @returns Returns the updated entity status or a promise to get it.
-     */
-    getUpdateByIdResponse(model, response) {
-        this.payloadData = void 0;
-        if (response.status.code === 200) {
-            if (!(response.payload instanceof Object)) {
-                throw new Error(`The response body must be an object containing the response results.`);
-            }
-            this.payloadData = response.payload;
-            switch (model) {
-                case SignatureRequests.Cancel:
-                    return this.payloadData.cancelled === true;
-                case SignatureRequests.Resend:
-                    return this.payloadData.detail === 'OK';
-                default:
-                    throw new Error(`Unsupported request entity.`);
-            }
-        }
-        return false;
-    }
-    /**
-     * Gets the found entity from the given response entity.
-     * @param model Entity model.
-     * @param response Response entity.
-     * @returns Returns the entity, a promise to get it or undefined when the entity was not found.
-     */
-    getFindByIdResponse(model, response) {
-        if (response.status.code === 200) {
-            return response.payload;
-        }
-        return void 0;
-    }
-    /**
-     * Gets the deleted entity status from the given response entity.
-     * @param model Entity model.
-     * @param response Response entity.
-     * @returns Returns the deleted entity status.
-     */
-    getDeleteByIdResponse(model, response) {
-        return response.status.code === 204;
-    }
-    /**
-     * Notify an error in the given response entity for all listeners.
-     * @param model Entity model.
-     * @param response Response entity.
-     */
-    async notifyErrorResponse(model, response) {
-        this.payloadData = void 0;
-        if (response.payload instanceof Object) {
-            this.payloadData = response.payload;
-            await super.notifyErrorResponse(model, response);
-            throw new Error(`Endpoint error, please check the payload.`);
-        }
-        else {
-            await super.notifyErrorResponse(model, response);
-            throw new Error(`Server error: ${response.status.message}.`);
-        }
-    }
-    /**
-     * Gets the payload from the last request.
+     * Get the last request payload.
      */
     get payload() {
-        return this.payloadData;
+        return this.lastPayload;
     }
     /**
-     * Sets the authorization token for all subsequent requests.
+     * Set the authorization token for all subsequent requests.
      * @param token Username.
      * @param password Password.
-     * @returns Returns the client instance.
+     * @returns Returns the instance itself.
      */
     setAuthorization(token) {
-        return this.setHeader('Authorization', `Token ${token}`), this;
+        this.setAuthHeader('Authorization', `Token ${token}`);
+        return this;
     }
 };
 __decorate([
     Class.Private()
-], Client.prototype, "payloadData", void 0);
-__decorate([
-    Class.Protected()
-], Client.prototype, "getRequestId", null);
-__decorate([
-    Class.Protected()
-], Client.prototype, "getRequestQuery", null);
-__decorate([
-    Class.Protected()
-], Client.prototype, "getRequestMethod", null);
+], Client.prototype, "lastPayload", void 0);
 __decorate([
     Class.Protected()
 ], Client.prototype, "getInsertResponse", null);
 __decorate([
     Class.Protected()
-], Client.prototype, "getUpdateByIdResponse", null);
+], Client.prototype, "getFindByIdResponse", null);
 __decorate([
     Class.Protected()
-], Client.prototype, "getFindByIdResponse", null);
+], Client.prototype, "getUpdateByIdResponse", null);
 __decorate([
     Class.Protected()
 ], Client.prototype, "getDeleteByIdResponse", null);
 __decorate([
     Class.Protected()
-], Client.prototype, "notifyErrorResponse", null);
+], Client.prototype, "getRequestQuery", null);
+__decorate([
+    Class.Protected()
+], Client.prototype, "getRequestId", null);
 __decorate([
     Class.Public()
 ], Client.prototype, "payload", null);

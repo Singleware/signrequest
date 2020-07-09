@@ -10,6 +10,10 @@ import { Entity } from './entity';
  */
 export declare class Mapper extends Class.Null {
     /**
+     * Last response payload.
+     */
+    private lastPayload;
+    /**
      * Client instance.
      */
     private client;
@@ -18,11 +22,16 @@ export declare class Mapper extends Class.Null {
      */
     private mapper;
     /**
-     * Creates a new attachment request.
-     * @param request Attachment creation request.
-     * @returns Returns a promise to get the attachment entity or undefined when the operation has been failed.
+     * Get the last request payload.
      */
-    create(request: Requests.Create): Promise<Entity | undefined>;
+    get payload(): Entity | undefined;
+    /**
+     * Create a new attachment request.
+     * @param request Attachment creation request.
+     * @returns Returns a promise to get the attachment Id.
+     * @throws Throws an error when the server response is invalid.
+     */
+    create(request: Requests.Create): Promise<string>;
     /**
      * Read the attachment that corresponds to the specified Id.
      * @param id Attachment Id.

@@ -4,8 +4,8 @@
  */
 import * as Class from '@singleware/class';
 import * as Integrations from '../integrations';
+import * as Internals from './internals';
 import * as Types from './types';
-import * as Responses from './responses';
 /**
  * Signature entity class.
  */
@@ -43,7 +43,7 @@ export declare class Entity extends Class.Null {
     /**
      * Attachments that signers are required to upload.
      */
-    requiredAttachments?: Responses.Internals.Attachment[];
+    requiredAttachments?: Internals.Attachment[];
     /**
      * Disable uploading/adding of attachments.
      */
@@ -97,7 +97,7 @@ export declare class Entity extends Class.Null {
     /**
      * Document signers.
      */
-    signers: Responses.Internals.Signer[];
+    signers: Internals.Signer[];
     /**
      * Document Id.
      * Max 36 characters.

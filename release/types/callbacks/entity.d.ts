@@ -1,6 +1,7 @@
 import * as Class from '@singleware/class';
 import * as Documents from '../documents';
 import * as Signatures from '../signatures';
+import * as Internals from './internals';
 import * as Types from './types';
 /**
  * Event entity class.
@@ -42,11 +43,11 @@ export declare class Entity extends Class.Null {
     /**
      * Document entity.
      */
-    document: Omit<Documents.Entity, 'url'>;
+    document: Internals.LightDocument;
     /**
      * Signer entity.
      */
-    signer?: Signatures.Responses.Internals.Signer | null;
+    signer?: Signatures.Internals.Signer | null;
     /**
      * Determines whether or not this event is valid according to the specified API token.
      * @param token Token.

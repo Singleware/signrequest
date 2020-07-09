@@ -10,6 +10,7 @@ import * as RestDB from '@singleware/restdb';
 import * as Documents from '../documents';
 import * as Signatures from '../signatures';
 
+import * as Internals from './internals';
 import * as Types from './types';
 
 /**
@@ -91,47 +92,17 @@ export class Entity extends Class.Null {
    * Document entity.
    */
   @RestDB.Schema.Required()
-  @RestDB.Schema.Object(Documents.Entity, [
-    'team',
-    'uuid',
-    'user',
-    'fileAsPdf',
-    'name',
-    'externalId',
-    'frontendId',
-    'file',
-    'fileFromUrl',
-    'eventsCallbackUrl',
-    'fileFromContent',
-    'fileFromContentName',
-    'template',
-    'preFillTags',
-    'integrations',
-    'fileFromSF',
-    'autoDeleteDays',
-    'autoExpireDays',
-    'pdf',
-    'status',
-    'signRequest',
-    'apiUsed',
-    'signingLog',
-    'securityHash',
-    'attachments',
-    'autoDeleteAfter',
-    'sandbox',
-    'autoExpireAfter',
-    'processing'
-  ])
+  @RestDB.Schema.Object(Documents.Entity, Internals.LightDocumentFields)
   @Class.Public()
-  public document!: Omit<Documents.Entity, 'url'>;
+  public document!: Internals.LightDocument;
 
   /**
    * Signer entity.
    */
-  @RestDB.Schema.Object(Signatures.Responses.Internals.Signer)
+  @RestDB.Schema.Object(Signatures.Internals.Signer)
   @RestDB.Schema.Null()
   @Class.Public()
-  public signer?: Signatures.Responses.Internals.Signer | null;
+  public signer?: Signatures.Internals.Signer | null;
 
   /**
    * Determines whether or not this event is valid according to the specified API token.

@@ -18,6 +18,12 @@ import { Entity } from './entity';
 @Class.Describe()
 export class Mapper extends Class.Null {
   /**
+   * Last response payload.
+   */
+  @Class.Private()
+  private lastPayload: Entity | undefined;
+
+  /**
    * Client instance.
    */
   @Injection.Inject(() => Client)
@@ -31,16 +37,28 @@ export class Mapper extends Class.Null {
   private mapper = new RestDB.Mapper<Entity>(this.client, Entity);
 
   /**
-   * Creates a new attachment request.
-   * @param request Attachment creation request.
-   * @returns Returns a promise to get the attachment entity or undefined when the operation has been failed.
+   * Get the last request payload.
    */
   @Class.Public()
-  public async create(request: Requests.Create): Promise<Entity | undefined> {
-    if ((await this.mapper.insertEx(Requests.Create, request)) !== void 0) {
-      return RestDB.Outputer.createFull(Entity, <RestDB.Entity>this.client.payload, []);
+  public get payload(): Entity | undefined {
+    return this.lastPayload;
+  }
+
+  /**
+   * Create a new attachment request.
+   * @param request Attachment creation request.
+   * @returns Returns a promise to get the attachment Id.
+   * @throws Throws an error when the server response is invalid.
+   */
+  @Class.Public()
+  public async create(request: Requests.Create): Promise<string> {
+    this.lastPayload = void 0;
+    const uuid = await this.mapper.insertEx(Requests.Create, request);
+    if (uuid === void 0) {
+      throw new Error(`Unexpected server response.`);
     }
-    return void 0;
+    this.lastPayload = RestDB.Outputer.createFull(Entity, this.client.payload!, []);
+    return uuid;
   }
 
   /**
@@ -50,6 +68,8 @@ export class Mapper extends Class.Null {
    */
   @Class.Public()
   public async read(id: string): Promise<Entity | undefined> {
-    return await this.mapper.findById(id);
+    this.lastPayload = void 0;
+    this.lastPayload = await this.mapper.findById(id);
+    return this.lastPayload;
   }
 }

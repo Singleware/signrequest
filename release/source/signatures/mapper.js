@@ -29,23 +29,35 @@ let Mapper = class Mapper extends Class.Null {
         this.mapper = new RestDB.Mapper(this.client, entity_1.Entity);
     }
     /**
+     * Get the last request payload.
+     */
+    get payload() {
+        return this.lastPayload;
+    }
+    /**
      * Creates a new signature request.
      * @param request Signature creation request.
-     * @returns Returns a promise to get the signature entity or undefined when the operation has been failed.
+     * @returns Returns a promise to get the signature Id.
+     * @throws Throws an error when the server response is invalid.
      */
     async create(request) {
-        if ((await this.mapper.insertEx(Requests.Create, request)) !== void 0) {
-            return RestDB.Outputer.createFull(entity_1.Entity, this.client.payload, []);
+        this.lastPayload = void 0;
+        const uuid = await this.mapper.insertEx(Requests.Create, request);
+        if (uuid === void 0) {
+            throw new Error(`Unexpected server response.`);
         }
-        return void 0;
+        this.lastPayload = RestDB.Outputer.createFull(entity_1.Entity, this.client.payload, []);
+        return uuid;
     }
     /**
      * Read the signature that corresponds to the specified Id.
      * @param id Signature Id.
-     * @returns Returns a promise to get the signature entity or undefined when the signature wasn't found.
+     * @returns Returns a promise to get the signature entity or undefined when it wasn't found.
      */
     async read(id) {
-        return await this.mapper.findById(id);
+        this.lastPayload = void 0;
+        this.lastPayload = await this.mapper.findById(id);
+        return this.lastPayload;
     }
     /**
      * Cancel the signature that corresponds to the specified Id.
@@ -53,7 +65,12 @@ let Mapper = class Mapper extends Class.Null {
      * @returns Returns a promise to get true when the cancellation was successful, false otherwise.
      */
     async cancel(id) {
-        return await this.mapper.updateByIdEx(Requests.Cancel, id, {});
+        var _a;
+        this.lastPayload = void 0;
+        if (await this.mapper.updateByIdEx(Requests.Cancel, id, {}, { method: RestDB.Method.POST })) {
+            return ((_a = this.client.payload) === null || _a === void 0 ? void 0 : _a.cancelled) === true;
+        }
+        return false;
     }
     /**
      * Resend the signature that corresponds to the specified Id.
@@ -61,9 +78,17 @@ let Mapper = class Mapper extends Class.Null {
      * @returns Returns a promise to get true when the cancellation was successful, false otherwise.
      */
     async resend(id) {
-        return await this.mapper.updateByIdEx(Requests.Resend, id, {});
+        var _a;
+        this.lastPayload = void 0;
+        if (await this.mapper.updateByIdEx(Requests.Resend, id, {}, { method: RestDB.Method.POST })) {
+            return ((_a = this.client.payload) === null || _a === void 0 ? void 0 : _a.detail) === 'OK';
+        }
+        return false;
     }
 };
+__decorate([
+    Class.Private()
+], Mapper.prototype, "lastPayload", void 0);
 __decorate([
     Injection.Inject(() => client_1.Client),
     Class.Private()
@@ -71,6 +96,9 @@ __decorate([
 __decorate([
     Class.Private()
 ], Mapper.prototype, "mapper", void 0);
+__decorate([
+    Class.Public()
+], Mapper.prototype, "payload", null);
 __decorate([
     Class.Public()
 ], Mapper.prototype, "create", null);

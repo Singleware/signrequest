@@ -7,8 +7,8 @@ import * as RestDB from '@singleware/restdb';
 
 import * as Integrations from '../../integrations';
 
+import * as Internals from '../internals';
 import * as Types from '../types';
-import * as Internals from './internals';
 
 /**
  * Create signature, entity class.
@@ -70,9 +70,9 @@ export class Create extends Class.Null {
    * Attachments that signers are required to upload.
    */
   @RestDB.Schema.Alias('required_attachments')
-  @RestDB.Schema.Array(Internals.Requirement)
+  @RestDB.Schema.Array(Internals.Requirement, ['name'])
   @Class.Public()
-  public requiredAttachments?: Internals.Requirement[];
+  public requiredAttachments?: Omit<Internals.Requirement, 'uuid'>[];
 
   /**
    * Disable uploading/adding of attachments.
@@ -178,9 +178,9 @@ export class Create extends Class.Null {
    * Document signers.
    */
   @RestDB.Schema.Required()
-  @RestDB.Schema.Array(Internals.Signer)
+  @RestDB.Schema.Array(Internals.Signer, Internals.Request.LightSignerFields)
   @Class.Public()
-  public signers!: Internals.Signer[];
+  public signers!: Internals.Request.LightSigner[];
 
   /**
    * Document URL.

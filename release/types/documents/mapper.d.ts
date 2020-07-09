@@ -10,6 +10,10 @@ import { Entity } from './entity';
  */
 export declare class Mapper extends Class.Null {
     /**
+     * Last response payload.
+     */
+    private lastPayload;
+    /**
      * Client instance.
      */
     private client;
@@ -18,15 +22,20 @@ export declare class Mapper extends Class.Null {
      */
     private mapper;
     /**
-     * Creates a new document request.
-     * @param request Document creation request.
-     * @returns Returns a promise to get the document entity or undefined when the operation has been failed.
+     * Get the last request payload.
      */
-    create(request: Requests.Create): Promise<Entity | undefined>;
+    get payload(): Entity | undefined;
+    /**
+     * Create a new document request.
+     * @param request Document creation request.
+     * @returns Returns a promise to get the document Id.
+     * @throws Throws an error when the server response is invalid.
+     */
+    create(request: Requests.Create): Promise<string>;
     /**
      * Read the document that corresponds to the specified document Id.
      * @param id Document Id.
-     * @returns Returns a promise to get the document entity or undefined when the document wasn't found.
+     * @returns Returns a promise to get the document entity or undefined when it wasn't found.
      */
     read(id: string): Promise<Entity | undefined>;
     /**

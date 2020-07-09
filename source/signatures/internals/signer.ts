@@ -5,13 +5,11 @@
 import * as Class from '@singleware/class';
 import * as RestDB from '@singleware/restdb';
 
-import * as Documents from '../../../documents';
-import * as Integrations from '../../../integrations';
+import * as Integrations from '../../integrations';
+import * as Types from '../types';
 
-import * as Types from '../../types';
-
-import { Input } from './input';
 import { Attachment } from './attachment';
+import { Input } from './input';
 
 /**
  * Signer entity class.
@@ -246,7 +244,7 @@ export class Signer extends Class.Null {
   @RestDB.Schema.String(0, 255)
   @RestDB.Schema.Null()
   @Class.Public()
-  public embedUrlUerId?: string | null;
+  public embedUrlUserId?: string | null;
 
   /**
    * Signer inputs.

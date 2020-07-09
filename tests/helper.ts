@@ -41,7 +41,7 @@ export class Helper extends Class.Null {
   private static signatures: SignRequest.Signatures.Mapper;
 
   /**
-   * Sets the SignRequest client authorization.
+   * Set the SignRequest client authorization.
    */
   @Class.Public()
   public static setAuthorization(): void {
@@ -49,50 +49,47 @@ export class Helper extends Class.Null {
   }
 
   /**
-   * Gets a new document entity.
-   * @returns Returns a promise to get the new document entity or undefined when the operation has been failed.
+   * Get a new document entity.
+   * @returns Returns a promise to get the new document entity.
    */
   @Class.Public()
-  public static async getNewDocumentEntity(): Promise<SignRequest.Documents.Entity | undefined> {
-    return await this.documents.create({
+  public static async getNewDocumentEntity(): Promise<SignRequest.Documents.Entity> {
+    await this.documents.create({
       fileFromContent: '<h1>Helper Document</h1>',
       fileFromContentName: 'test.html',
       autoExpireDays: 1,
       autoDeleteDays: 1
     });
+    return this.documents.payload!;
   }
 
   /**
-   * Gets a new attachment entity.
-   * @returns Returns a promise to get the new attachment entity or undefined when the operation has been failed.
+   * Get a new attachment entity.
+   * @returns Returns a promise to get the new attachment entity.
    */
   @Class.Public()
-  public static async getNewAttachmentEntity(): Promise<SignRequest.Attachments.Entity | undefined> {
-    const document = <SignRequest.Documents.Entity>await this.getNewDocumentEntity();
-    if (!document) {
-      throw new Error(`Document for the attachment wasn't created.`);
-    }
-    return await this.attachments.create({
+  public static async getNewAttachmentEntity(): Promise<SignRequest.Attachments.Entity> {
+    const document = await this.getNewDocumentEntity();
+    await this.attachments.create({
       fileFromContent: '<h1>Helper Attachment</h1>',
       fileFromContentName: 'attachment.html',
-      document: <string>document.url
+      document: document.url
     });
+    return this.attachments.payload!;
   }
 
   /**
-   * Gets a new signature entity.
-   * @returns Returns a promise to get the new signature entity or undefined when the operation has been failed.
+   * Get a new signature entity.
+   * @returns Returns a promise to get the new signature entity.
    */
   @Class.Public()
-  public static async getNewSignatureEntity(): Promise<SignRequest.Signatures.Entity | undefined> {
-    const document = <SignRequest.Documents.Entity>await this.getNewDocumentEntity();
-    if (!document) {
-      throw new Error(`Document for the signature wasn't created.`);
-    }
-    return await this.signatures.create({
+  public static async getNewSignatureEntity(): Promise<SignRequest.Signatures.Entity> {
+    const document = await this.getNewDocumentEntity();
+    await this.signatures.create({
       fromEmail: 'team@singleware.com.br',
       signers: [{ email: 'test@singleware.com.br' }],
-      document: <string>document.url
+      document: document.url
     });
+    return this.signatures.payload!;
   }
 }

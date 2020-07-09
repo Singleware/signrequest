@@ -29,15 +29,25 @@ let Mapper = class Mapper extends Class.Null {
         this.mapper = new RestDB.Mapper(this.client, entity_1.Entity);
     }
     /**
-     * Creates a new attachment request.
+     * Get the last request payload.
+     */
+    get payload() {
+        return this.lastPayload;
+    }
+    /**
+     * Create a new attachment request.
      * @param request Attachment creation request.
-     * @returns Returns a promise to get the attachment entity or undefined when the operation has been failed.
+     * @returns Returns a promise to get the attachment Id.
+     * @throws Throws an error when the server response is invalid.
      */
     async create(request) {
-        if ((await this.mapper.insertEx(Requests.Create, request)) !== void 0) {
-            return RestDB.Outputer.createFull(entity_1.Entity, this.client.payload, []);
+        this.lastPayload = void 0;
+        const uuid = await this.mapper.insertEx(Requests.Create, request);
+        if (uuid === void 0) {
+            throw new Error(`Unexpected server response.`);
         }
-        return void 0;
+        this.lastPayload = RestDB.Outputer.createFull(entity_1.Entity, this.client.payload, []);
+        return uuid;
     }
     /**
      * Read the attachment that corresponds to the specified Id.
@@ -45,9 +55,14 @@ let Mapper = class Mapper extends Class.Null {
      * @returns Returns a promise to get the attachment entity or undefined when the attachment wasn't found.
      */
     async read(id) {
-        return await this.mapper.findById(id);
+        this.lastPayload = void 0;
+        this.lastPayload = await this.mapper.findById(id);
+        return this.lastPayload;
     }
 };
+__decorate([
+    Class.Private()
+], Mapper.prototype, "lastPayload", void 0);
 __decorate([
     Injection.Inject(() => client_1.Client),
     Class.Private()
@@ -55,6 +70,9 @@ __decorate([
 __decorate([
     Class.Private()
 ], Mapper.prototype, "mapper", void 0);
+__decorate([
+    Class.Public()
+], Mapper.prototype, "payload", null);
 __decorate([
     Class.Public()
 ], Mapper.prototype, "create", null);

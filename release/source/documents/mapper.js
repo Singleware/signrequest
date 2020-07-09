@@ -29,23 +29,35 @@ let Mapper = class Mapper extends Class.Null {
         this.mapper = new RestDB.Mapper(this.client, entity_1.Entity);
     }
     /**
-     * Creates a new document request.
+     * Get the last request payload.
+     */
+    get payload() {
+        return this.lastPayload;
+    }
+    /**
+     * Create a new document request.
      * @param request Document creation request.
-     * @returns Returns a promise to get the document entity or undefined when the operation has been failed.
+     * @returns Returns a promise to get the document Id.
+     * @throws Throws an error when the server response is invalid.
      */
     async create(request) {
-        if ((await this.mapper.insertEx(Requests.Create, request)) !== void 0) {
-            return RestDB.Outputer.createFull(entity_1.Entity, this.client.payload, []);
+        this.lastPayload = void 0;
+        const uuid = await this.mapper.insertEx(Requests.Create, request);
+        if (uuid === void 0) {
+            throw new Error(`Unexpected server response.`);
         }
-        return void 0;
+        this.lastPayload = RestDB.Outputer.createFull(entity_1.Entity, this.client.payload, []);
+        return uuid;
     }
     /**
      * Read the document that corresponds to the specified document Id.
      * @param id Document Id.
-     * @returns Returns a promise to get the document entity or undefined when the document wasn't found.
+     * @returns Returns a promise to get the document entity or undefined when it wasn't found.
      */
     async read(id) {
-        return await this.mapper.findById(id);
+        this.lastPayload = void 0;
+        this.lastPayload = await this.mapper.findById(id);
+        return this.lastPayload;
     }
     /**
      * Delete the document that corresponds to the specified document Id.
@@ -53,9 +65,13 @@ let Mapper = class Mapper extends Class.Null {
      * @returns Returns a promise to get true when the removal was successful, false otherwise.
      */
     async delete(id) {
+        this.lastPayload = void 0;
         return await this.mapper.deleteById(id);
     }
 };
+__decorate([
+    Class.Private()
+], Mapper.prototype, "lastPayload", void 0);
 __decorate([
     Injection.Inject(() => client_1.Client),
     Class.Private()
@@ -63,6 +79,9 @@ __decorate([
 __decorate([
     Class.Private()
 ], Mapper.prototype, "mapper", void 0);
+__decorate([
+    Class.Public()
+], Mapper.prototype, "payload", null);
 __decorate([
     Class.Public()
 ], Mapper.prototype, "create", null);

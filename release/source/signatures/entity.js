@@ -14,8 +14,8 @@ exports.Entity = void 0;
 const Class = require("@singleware/class");
 const RestDB = require("@singleware/restdb");
 const Integrations = require("../integrations");
+const Internals = require("./internals");
 const Types = require("./types");
-const Responses = require("./responses");
 /**
  * Signature entity class.
  */
@@ -59,7 +59,7 @@ __decorate([
 ], Entity.prototype, "redirectUrlDeclined", void 0);
 __decorate([
     RestDB.Schema.Alias('required_attachments'),
-    RestDB.Schema.Array(Responses.Internals.Attachment),
+    RestDB.Schema.Array(Internals.Attachment),
     Class.Public()
 ], Entity.prototype, "requiredAttachments", void 0);
 __decorate([
@@ -126,7 +126,7 @@ __decorate([
 ], Entity.prototype, "sendReminders", void 0);
 __decorate([
     RestDB.Schema.Required(),
-    RestDB.Schema.Array(Responses.Internals.Signer),
+    RestDB.Schema.Array(Internals.Signer),
     Class.Public()
 ], Entity.prototype, "signers", void 0);
 __decorate([

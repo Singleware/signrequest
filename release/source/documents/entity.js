@@ -18,7 +18,6 @@ const Signatures = require("../signatures");
 const Integrations = require("../integrations");
 const Types = require("./types");
 const Internals = require("./internals");
-const Responses = require("./responses");
 /**
  * Document entity class.
  */
@@ -41,7 +40,7 @@ __decorate([
     Class.Public()
 ], Entity.prototype, "uuid", void 0);
 __decorate([
-    RestDB.Schema.Object(Responses.Internals.User),
+    RestDB.Schema.Object(Internals.User),
     RestDB.Schema.Null(),
     Class.Public()
 ], Entity.prototype, "user", void 0);
@@ -141,29 +140,7 @@ __decorate([
 ], Entity.prototype, "status", void 0);
 __decorate([
     RestDB.Schema.Alias('signrequest'),
-    RestDB.Schema.Object(Signatures.Entity, [
-        'fromEmail',
-        'fromEmailName',
-        'isBeingPrepared',
-        'prepareUrl',
-        'redirectUrl',
-        'redirectUrlDeclined',
-        'requiredAttachments',
-        'disableAttachments',
-        'disableTextSignatures',
-        'disableText',
-        'disableDate',
-        'disableEmails',
-        'disableUploadSignatures',
-        'disableBlockchainProof',
-        'textMessageVerificationLocked',
-        'subject',
-        'message',
-        'who',
-        'sendReminders',
-        'signers',
-        'uuid'
-    ]),
+    RestDB.Schema.Object(Signatures.Entity, Internals.LightSignatureFields),
     RestDB.Schema.Null(),
     Class.Public()
 ], Entity.prototype, "signRequest", void 0);

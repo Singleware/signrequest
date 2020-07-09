@@ -34,4 +34,4 @@ SigningLog = __decorate([
     Class.Describe()
 ], SigningLog);
 exports.SigningLog = SigningLog;
-//# sourceMappingURL=log.js.map
+//# sourceMappingURL=signinglog.js.map

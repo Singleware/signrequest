@@ -4,18 +4,6 @@
  */
 export { Mapper } from './mapper';
 export { Entity } from './entity';
-import * as Types from './types';
-import * as Requests from './requests';
-import * as Responses from './responses';
-/**
- * Types namespace.
- */
-export import Types = Types;
-/**
- * Requests namespace.
- */
-export import Requests = Requests;
-/**
- * Responses namespace.
- */
-export import Responses = Responses;
+export * as Types from './types';
+export * as Internals from './internals';
+export * as Requests from './requests';

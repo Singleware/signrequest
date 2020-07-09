@@ -4,8 +4,8 @@
  */
 import * as Class from '@singleware/class';
 import * as Integrations from '../../integrations';
+import * as Internals from '../internals';
 import * as Types from '../types';
-import * as Internals from './internals';
 /**
  * Create signature, entity class.
  */
@@ -38,7 +38,7 @@ export declare class Create extends Class.Null {
     /**
      * Attachments that signers are required to upload.
      */
-    requiredAttachments?: Internals.Requirement[];
+    requiredAttachments?: Omit<Internals.Requirement, 'uuid'>[];
     /**
      * Disable uploading/adding of attachments.
      */
@@ -92,7 +92,7 @@ export declare class Create extends Class.Null {
     /**
      * Document signers.
      */
-    signers: Internals.Signer[];
+    signers: Internals.Request.LightSigner[];
     /**
      * Document URL.
      */
