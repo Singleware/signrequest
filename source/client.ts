@@ -26,7 +26,7 @@ export class Client extends RestDB.Driver {
    * @throws Throws an error when the server response is invalid.
    */
   @Class.Protected()
-  protected getInsertResponse<T>(model: RestDB.Model, response: RestDB.Responses.Output): T {
+  protected getInsertResponse<R>(model: RestDB.Model, response: RestDB.Responses.Output): R {
     this.lastPayload = response.payload;
     if (response.status.code !== 201) {
       throw new Error(`Unexpected insert(${response.input.method}) response status: ${response.status.code}`);
@@ -44,14 +44,14 @@ export class Client extends RestDB.Driver {
    * @throws Throws an error when the server response is invalid.
    */
   @Class.Protected()
-  protected getFindByIdResponse<T>(model: RestDB.Model, response: RestDB.Responses.Output): T | undefined {
+  protected getFindByIdResponse<R>(model: RestDB.Model, response: RestDB.Responses.Output): R | undefined {
     this.lastPayload = response.payload;
     if (response.status.code !== 200) {
       throw new Error(`Unexpected find(${response.input.method}) response status: ${response.status.code}`);
     } else if (!(this.lastPayload instanceof Object)) {
       throw new Error(`Response payload must be an object.`);
     }
-    return <T>this.lastPayload;
+    return <R>this.lastPayload;
   }
 
   /**
@@ -107,7 +107,7 @@ export class Client extends RestDB.Driver {
    * @returns Returns the request Id.
    */
   @Class.Protected()
-  protected getRequestId(model: RestDB.Model, id: string): string {
+  protected getRequestId<I>(model: RestDB.Model, id: I): string {
     return `${super.getRequestId(model, id)}/`;
   }
 

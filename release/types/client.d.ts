@@ -14,7 +14,7 @@ export declare class Client extends RestDB.Driver {
      * @returns Returns the insert result.
      * @throws Throws an error when the server response is invalid.
      */
-    protected getInsertResponse<T>(model: RestDB.Model, response: RestDB.Responses.Output): T;
+    protected getInsertResponse<R>(model: RestDB.Model, response: RestDB.Responses.Output): R;
     /**
      * Get the found entity from the given response entity.
      * @param model Entity model.
@@ -22,7 +22,7 @@ export declare class Client extends RestDB.Driver {
      * @returns Returns the entity or undefined when the entity wasn't found.
      * @throws Throws an error when the server response is invalid.
      */
-    protected getFindByIdResponse<T>(model: RestDB.Model, response: RestDB.Responses.Output): T | undefined;
+    protected getFindByIdResponse<R>(model: RestDB.Model, response: RestDB.Responses.Output): R | undefined;
     /**
      * Get the updated entity status from the given response entity.
      * @param model Entity model.
@@ -53,7 +53,7 @@ export declare class Client extends RestDB.Driver {
      * @param id Entity Id.
      * @returns Returns the request Id.
      */
-    protected getRequestId(model: RestDB.Model, id: string): string;
+    protected getRequestId<I>(model: RestDB.Model, id: I): string;
     /**
      * Default constructor.
      */

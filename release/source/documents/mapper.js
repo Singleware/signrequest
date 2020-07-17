@@ -66,7 +66,7 @@ let Mapper = class Mapper extends Class.Null {
      */
     async delete(id) {
         this.lastPayload = void 0;
-        return await this.mapper.deleteById(id);
+        return (await this.mapper.deleteById(id));
     }
 };
 __decorate([

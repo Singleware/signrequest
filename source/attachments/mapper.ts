@@ -53,7 +53,7 @@ export class Mapper extends Class.Null {
   @Class.Public()
   public async create(request: Requests.Create): Promise<string> {
     this.lastPayload = void 0;
-    const uuid = await this.mapper.insertEx(Requests.Create, request);
+    const uuid = await this.mapper.insertEx<Requests.Create, string>(Requests.Create, request);
     if (uuid === void 0) {
       throw new Error(`Unexpected server response.`);
     }
